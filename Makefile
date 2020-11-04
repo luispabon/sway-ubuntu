@@ -70,6 +70,10 @@ define WF_RECORDER_DEPS
 	opencl-c-headers
 endef
 
+define CLIPMAN_DEPS
+	golang-go
+endef
+
 PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
@@ -77,16 +81,17 @@ NINJA_CLEAN_BUILD_INSTALL=sudo ninja -C build uninstall; sudo rm build -rf; meso
 yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build
 
 install-repos:
-	git clone https://github.com/swaywm/sway.git || echo "Already installed"
-	git clone https://github.com/swaywm/wlroots.git || echo "Already installed"
-	git clone https://github.com/emersion/kanshi.git || echo "Already installed"
-	git clone https://github.com/Alexays/Waybar.git || echo "Already installed"
-	git clone https://github.com/mortie/swaylock-effects.git || echo "Already installed"
-	git clone https://github.com/emersion/mako.git || echo "Already installed"
-	git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
+	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
+	@git clone https://github.com/swaywm/wlroots.git || echo "Already installed"
+	@git clone https://github.com/emersion/kanshi.git || echo "Already installed"
+	@git clone https://github.com/Alexays/Waybar.git || echo "Already installed"
+	@git clone https://github.com/mortie/swaylock-effects.git || echo "Already installed"
+	@git clone https://github.com/emersion/mako.git || echo "Already installed"
+	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
+	@git clone https://github.com/yory8/clipman.git || echo "Already installed"
 
 install-dependencies:
-	sudo apt -y install $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_RUNTIME_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS)
+	sudo apt -y install $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_RUNTIME_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(CLIPMAN_DEPS)
 	sudo apt -y install build-essential
 	sudo pip3 install $(PIP_PACKAGES) --upgrade
 
@@ -113,3 +118,6 @@ mako-build:
 
 wf-recorder-build:
 	cd wf-recorder; $(NINJA_CLEAN_BUILD_INSTALL)
+
+clipman-build:
+	cd clipman; go install; sudo cp ~/go/bin/clipman /usr/local/bin/
