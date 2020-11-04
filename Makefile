@@ -66,6 +66,9 @@ endef
 PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
+
+yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build
+
 install-repos:
 	git clone git@github.com:swaywm/sway.git || echo "Already installed"
 	git clone git@github.com:swaywm/wlroots.git || echo "Already installed"
