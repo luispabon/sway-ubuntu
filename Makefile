@@ -1,3 +1,13 @@
+# Define here which branches or tags you want to build for each project
+SWAY_VERSION ?= master
+WLROOTS_VERSION ?= master
+KANSHI_VERSION ?= master
+WAYBAR_VERSION ?= master
+SWAYLOCK_VERSION ?= master
+MAKO_VERSION ?= master
+WF_RECORDER_VERSION ?= master
+CLIPMAN_VERSION ?= master
+
 define WLROOTS_DEPS
 	wayland-protocols \
 	libwayland-dev \
@@ -78,7 +88,7 @@ PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 
-yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build
+yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build
 
 install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
@@ -99,25 +109,25 @@ clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS)
 
 wlroots-build:
-	cd wlroots; $(NINJA_CLEAN_BUILD_INSTALL)
+	cd wlroots; git fetch; git checkout $(WLROOTS_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 sway-build:
-	cd sway; $(NINJA_CLEAN_BUILD_INSTALL)
+	cd sway; git fetch; git checkout $(SWAY_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 kanshi-build:
-	cd kanshi; $(NINJA_CLEAN_BUILD_INSTALL)
+	cd kanshi; git fetch; git checkout $(KANSHI_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 waybar-build:
-	cd Waybar; $(NINJA_CLEAN_BUILD_INSTALL)
+	cd Waybar; git fetch; git checkout $(WAYBAR_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 swaylock-build:
-	cd swaylock-effects; $(NINJA_CLEAN_BUILD_INSTALL)
+	cd swaylock-effects; git fetch; git checkout $(SWAYLOCK_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 mako-build:
-	cd mako; $(NINJA_CLEAN_BUILD_INSTALL)
+	cd mako; git fetch;  git checkout $(MAKO_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 wf-recorder-build:
-	cd wf-recorder; $(NINJA_CLEAN_BUILD_INSTALL)
+	cd wf-recorder; git fetch; git checkout $(WF_RECORDER_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 clipman-build:
-	cd clipman; go install; sudo cp ~/go/bin/clipman /usr/local/bin/
+	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install; sudo cp ~/go/bin/clipman /usr/local/bin/
