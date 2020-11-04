@@ -72,6 +72,7 @@ install-repos:
 	git clone git@github.com:emersion/kanshi.git || echo "Already installed"
 	git clone git@github.com:Alexays/Waybar.git || echo "Already installed"
 	git clone git@github.com:mortie/swaylock-effects.git || echo "Already installed"
+	git clone git@github.com:emersion/mako.git || echo "Already installed"
 
 install-dependencies:
 	sudo apt -y install $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_RUNTIME_DEPS) $(SWAYLOCK_DEPS)
@@ -95,3 +96,6 @@ waybar-build:
 
 swaylock-build:
 	cd swaylock-effects; $(NINJA_CLEAN_BUILD_INSTALL)
+
+mako-build:
+	cd mako; $(NINJA_CLEAN_BUILD_INSTALL)
