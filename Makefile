@@ -59,23 +59,27 @@ define WAYBAR_RUNTIME_DEPS
 	libdbusmenu-gtk3-4
 endef
 
+define SWAYLOCK_DEPS
+	libpam0g-dev
+endef
+
 PIP_PACKAGES=ninja meson
 
-NINJA_CLEAN_BUILD_INSTALL=sudo ninja -C build uninstall; rm build -rf; meson build; sudo ninja -C build install
+NINJA_CLEAN_BUILD_INSTALL=sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 install-repos:
-	git clone git@github.com:swaywm/sway.git
-	git clone git@github.com:swaywm/wlroots.git
-	git clone git@github.com:emersion/kanshi.git
-	git clone git@github.com:Alexays/Waybar.git
+	git clone git@github.com:swaywm/sway.git || echo "Already installed"
+	git clone git@github.com:swaywm/wlroots.git || echo "Already installed"
+	git clone git@github.com:emersion/kanshi.git || echo "Already installed"
+	git clone git@github.com:Alexays/Waybar.git || echo "Already installed"
+	git clone git@github.com:mortie/swaylock-effects.git || echo "Already installed"
 
 install-dependencies:
-	# wlroots
-	sudo apt -y install $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_RUNTIME_DEPS)
-	sudo apt -y install essential
+	sudo apt -y install $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_RUNTIME_DEPS) $(SWAYLOCK_DEPS)
+	sudo apt -y install build-essential
 	sudo pip3 install $(PIP_PACKAGES) --upgrade
 
 clean-dependencies:
-	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS)
+	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS)
 
 wlroots-build:
 	cd wlroots; $(NINJA_CLEAN_BUILD_INSTALL)
@@ -88,3 +92,6 @@ kanshi-build:
 
 waybar-build:
 	cd Waybar; $(NINJA_CLEAN_BUILD_INSTALL)
+
+swaylock-build:
+	cd swaylock-effects; $(NINJA_CLEAN_BUILD_INSTALL)
