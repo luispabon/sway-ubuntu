@@ -113,6 +113,8 @@ install-dependencies:
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS)
 
+core: wlroots-build sway-build
+
 wlroots-build:
 	cd wlroots; git fetch; git checkout $(WLROOTS_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
