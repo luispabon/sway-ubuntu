@@ -7,6 +7,7 @@ SWAYLOCK_VERSION ?= master
 MAKO_VERSION ?= master
 WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
+PIPEWIRE_VERSION ?= master
 
 ifdef UPDATE
 	UPDATE_STATEMENT = git pull;
@@ -88,6 +89,17 @@ define CLIPMAN_DEPS
 	golang-go
 endef
 
+define PIPEWIRE_DEPS
+	libgstreamer1.0-dev \
+	libgstreamer-plugins-base1.0-dev \
+	libasound2-dev \
+	libbluetooth-dev \
+	libsbc-dev \
+	libjack-jackd2-dev \
+	libsdl2-dev \
+	libsndfile1-dev
+endef
+
 PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
@@ -143,3 +155,12 @@ clipman-build:
 wofi-build:
 	cd wofi; hg pull; hg update; $(NINJA_CLEAN_BUILD_INSTALL)
 	ln -sf $(shell pwd)/wofi/build/wofi ~/bin/
+
+# Experimental stuff
+pipewire-build:
+	sudo apt install -y --no-install-recommends $(PIPEWIRE_DEPS)
+	cd pipewire; git fetch; git checkout $(PIPEWIRE_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+
+pipewire-remove:
+	sudo apt autoremove --purge -y $(PIPEWIRE_DEPS)
+	cd pipewire; sudo ninja -C build uninstall
