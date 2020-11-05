@@ -8,6 +8,11 @@ MAKO_VERSION ?= master
 WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
 
+
+ifdef UPDATE
+	UPDATE_STATEMENT = git pull;
+endif
+
 define WLROOTS_DEPS
 	wayland-protocols \
 	libwayland-dev \
@@ -86,7 +91,7 @@ endef
 
 PIP_PACKAGES=ninja meson
 
-NINJA_CLEAN_BUILD_INSTALL=sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
+NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 
 yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build
 
