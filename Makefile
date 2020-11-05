@@ -8,7 +8,6 @@ MAKO_VERSION ?= master
 WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
 
-
 ifdef UPDATE
 	UPDATE_STATEMENT = git pull;
 endif
@@ -93,7 +92,7 @@ PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 
-yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build
+yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build
 
 install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
@@ -104,9 +103,11 @@ install-repos:
 	@git clone https://github.com/emersion/mako.git || echo "Already installed"
 	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
 	@git clone https://github.com/yory8/clipman.git || echo "Already installed"
+	@git clone https://github.com/PipeWire/pipewire.git || echo "Already installed"
+	@hg clone https://hg.sr.ht/~scoopta/wofi
 
 install-dependencies:
-	sudo apt -y install $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_RUNTIME_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(CLIPMAN_DEPS)
+	sudo apt -y install $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_RUNTIME_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(CLIPMAN_DEPS) $(PIPEWIRE_DEPS)
 	sudo apt -y install build-essential
 	sudo pip3 install $(PIP_PACKAGES) --upgrade
 
@@ -138,3 +139,7 @@ wf-recorder-build:
 
 clipman-build:
 	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install; sudo cp ~/go/bin/clipman /usr/local/bin/
+
+wofi-build:
+	cd wofi; hg pull; hg update; $(NINJA_CLEAN_BUILD_INSTALL)
+	ln -sf $(shell pwd)/wofi/build/wofi ~/bin/
