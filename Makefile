@@ -116,10 +116,20 @@ install-repos:
 	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
 	@git clone https://github.com/yory8/clipman.git || echo "Already installed"
 	@git clone https://github.com/PipeWire/pipewire.git || echo "Already installed"
-	@hg clone https://hg.sr.ht/~scoopta/wofi
+	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 
 install-dependencies:
-	sudo apt -y install $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_RUNTIME_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(CLIPMAN_DEPS) $(PIPEWIRE_DEPS)
+	sudo apt -y install --no-install-recommends \
+		$(WLROOTS_DEPS) \
+		$(SWAY_DEPS) \
+		$(GTK_LAYER_DEPS) \
+		$(WAYBAR_BUILD_DEPS) \
+		$(WAYBAR_RUNTIME_DEPS) \
+		$(SWAYLOCK_DEPS) \
+		$(WF_RECORDER_DEPS) \
+		$(CLIPMAN_DEPS) \
+		$(PIPEWIRE_DEPS)
+
 	sudo apt -y install build-essential
 	sudo pip3 install $(PIP_PACKAGES) --upgrade
 
