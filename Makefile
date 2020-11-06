@@ -160,7 +160,7 @@ wf-recorder-build:
 	cd wf-recorder; git fetch; git checkout $(WF_RECORDER_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 clipman-build:
-	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install; sudo cp ~/go/bin/clipman /usr/local/bin/
+	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install; sudo cp -f ~/go/bin/clipman /usr/local/bin/
 
 wofi-build:
 	cd wofi; hg pull; hg update; $(NINJA_CLEAN_BUILD_INSTALL)
