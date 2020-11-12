@@ -77,6 +77,19 @@ make core swaylock-build -e SWAY_VERSION=1.5 -e WLROOTS_VERSION=0.11.0 -e UPDATE
 
 Note the lack of `SWAYLOCK_VERSION` up there - `master` is already the default.
 
+# Uninstalling stuff
+
+When installing the stuff we're compiling, `ninja` will be copying the relevant files wherever they need to be in the system, without creating a `deb` package. Therefore, `apt autoremove app` won't work.
+
+So far all the apps in the repo except for clipman use `meson` and `ninja` for building. As long as you don't delete the `APP/build` repository you can uninstall from the system anything ninja installs:
+
+```
+cd APP
+sudo ninja -C build uninstall
+```
+
+If you deleted the `build` folder on the app, simply build the app again before running the command above.
+
 # wlroots dependencies
 
 This goes without saying, but if you're updating `wlroots` make sure it's built first so that any of the other apps that link against it (like `sway`) have the right version to link against instead of linking against the version you're replacing.
