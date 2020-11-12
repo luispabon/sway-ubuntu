@@ -13,6 +13,12 @@ ifdef UPDATE
 	UPDATE_STATEMENT = git pull;
 endif
 
+define BASE_CLI_DEPS
+	git \
+	mercurial \
+	python3-pip
+endef
+
 define WLROOTS_DEPS
 	wayland-protocols \
 	libwayland-dev \
@@ -120,6 +126,7 @@ install-repos:
 
 install-dependencies:
 	sudo apt -y install --no-install-recommends \
+		$(BASE_CLI_DEPS) \
 		$(WLROOTS_DEPS) \
 		$(SWAY_DEPS) \
 		$(GTK_LAYER_DEPS) \
