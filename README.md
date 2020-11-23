@@ -34,8 +34,13 @@ LD_LIBRARY_PATH=/usr/local/lib/x86_64-linux-gnu/
 
 is set on your environment prior to starting Sway. This is required so that any apps you compile here can find each other's library, as they're placed somewhere else than Ubuntu's default library path.
 
-# `sudo` note
+# Note: `sudo`
+
 Some operations require root to complete. While building `sudo` will be run at some point to do so and your password will be asked.
+
+# Note: `meson` and `ninja`
+
+Make sure you uninstall `meson` and `ninja` if you've already installed them via Ubuntu's package manager. We need newer versions than what's available in 20.04 and we'll be installing the latest versions using `pip` instead.
 
 # Dependencies
 
