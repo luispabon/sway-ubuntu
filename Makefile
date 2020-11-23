@@ -125,6 +125,10 @@ install-repos:
 	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 
 install-dependencies:
+	# PPA required in 20.04 after https://github.com/swaywm/wlroots/pull/2222
+	# Not necessary in 20.10+
+	sudo add-apt-repository ppa:oibaf/graphics-drivers
+
 	sudo apt -y install --no-install-recommends \
 		$(BASE_CLI_DEPS) \
 		$(WLROOTS_DEPS) \
