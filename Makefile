@@ -122,6 +122,7 @@ install-repos:
 	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
 	@git clone https://github.com/yory8/clipman.git || echo "Already installed"
 	@git clone https://github.com/PipeWire/pipewire.git || echo "Already installed"
+	@git clone https://github.com/emersion/xdg-desktop-portal-wlr.git || echo "Already installed"
 	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 
 install-dependencies:
@@ -186,3 +187,6 @@ pipewire-build:
 pipewire-remove:
 	sudo apt autoremove --purge -y $(PIPEWIRE_DEPS)
 	cd pipewire; sudo ninja -C build uninstall
+
+xdg-desktop-portal-wlr-build:
+	cd xdg-desktop-portal-wlr; git fetch; git checkout $(WF_RECORDER_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
