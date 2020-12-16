@@ -24,6 +24,10 @@ Experimental:
 
   * Pipewire 0.3
 
+Debs:
+
+  * network-manager-gnom: supersedes Ubuntu focal's version, hides unmanaged interfaces (eg virtualbox, docker, etc)
+
 # Prepare your system's environment
 
 You must make sure that

@@ -110,7 +110,7 @@ PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 
-yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build
+yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install
 
 install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
@@ -178,6 +178,11 @@ clipman-build:
 wofi-build:
 	cd wofi; hg pull; hg update; $(NINJA_CLEAN_BUILD_INSTALL)
 	sudo cp -f $(shell pwd)/wofi/build/wofi /usr/local/bin/
+
+nm-applet-install:
+	sudo dpkg -i debs/network-manager*.deb
+	sudo apt -f install
+	sudo apt-mark hold network-manager-gnome
 
 # Experimental stuff
 pipewire-build:
