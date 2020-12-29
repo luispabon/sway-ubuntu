@@ -155,6 +155,7 @@ wlroots-build:
 
 sway-build:
 	cd sway; git fetch; git checkout $(SWAY_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	sudo cp -f $(PWD)/sway/contrib/grimshot /usr/local/bin/
 
 kanshi-build:
 	cd kanshi; git fetch; git checkout $(KANSHI_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
