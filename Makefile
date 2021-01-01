@@ -8,6 +8,7 @@ MAKO_VERSION ?= master
 WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
 PIPEWIRE_VERSION ?= master
+WDISPLAYS_VERSION ?= master
 
 ifdef UPDATE
 	UPDATE_STATEMENT = git pull;
@@ -106,6 +107,10 @@ define PIPEWIRE_DEPS
 	libsndfile1-dev
 endef
 
+define WDISPLAYS_DEPS
+	scour
+endef
+
 PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
@@ -123,6 +128,7 @@ install-repos:
 	@git clone https://github.com/yory8/clipman.git || echo "Already installed"
 	@git clone https://github.com/PipeWire/pipewire.git || echo "Already installed"
 	@git clone https://github.com/emersion/xdg-desktop-portal-wlr.git || echo "Already installed"
+	@git clone https://github.com/cyclopsian/wdisplays.git || echo "Already installed"
 	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 
 install-dependencies:
@@ -140,13 +146,14 @@ install-dependencies:
 		$(SWAYLOCK_DEPS) \
 		$(WF_RECORDER_DEPS) \
 		$(CLIPMAN_DEPS) \
-		$(PIPEWIRE_DEPS)
+		$(PIPEWIRE_DEPS) \
+		$(WDISPLAYS_DEPS)
 
 	sudo apt -y install build-essential
 	sudo pip3 install $(PIP_PACKAGES) --upgrade
 
 clean-dependencies:
-	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS)
+	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS)
 
 core: wlroots-build sway-build
 
@@ -171,6 +178,9 @@ mako-build:
 
 wf-recorder-build:
 	cd wf-recorder; git fetch; git checkout $(WF_RECORDER_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+
+wdisplays-build:
+	cd wdisplays; git fetch; git checkout $(WDISPLAYS_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 clipman-build:
 	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install
