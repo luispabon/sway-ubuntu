@@ -153,8 +153,11 @@ clean-dependencies:
 
 core: wlroots-build sway-build
 
+meson-ninja-build:
+	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+
 wlroots-build:
-	cd wlroots; git fetch; git checkout $(WLROOTS_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	make meson-ninja-build -e APP_FOLDER=wlroots -e APP_VERSION=$(WLROOTS_VERSION)
 
 sway-build:
 	cd sway; git fetch; git checkout $(SWAY_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
