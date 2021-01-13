@@ -160,26 +160,26 @@ wlroots-build:
 	make meson-ninja-build -e APP_FOLDER=wlroots -e APP_VERSION=$(WLROOTS_VERSION)
 
 sway-build:
-	cd sway; git fetch; git checkout $(SWAY_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	make meson-ninja-build -e APP_FOLDER=sway -e APP_VERSION=$(SWAY_VERSION)
 	sudo cp -f $(PWD)/sway/contrib/grimshot /usr/local/bin/
 
 kanshi-build:
-	cd kanshi; git fetch; git checkout $(KANSHI_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	make meson-ninja-build -e APP_FOLDER=kanshi -e APP_VERSION=$(KANSHI_VERSION)
 
 waybar-build:
-	cd Waybar; git fetch; git checkout $(WAYBAR_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	make meson-ninja-build -e APP_FOLDER=Waybar -e APP_VERSION=$(WAYBAR_VERSION)
 
 swaylock-build:
-	cd swaylock-effects; git fetch; git checkout $(SWAYLOCK_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	make meson-ninja-build -e APP_FOLDER=swaylock-effects -e APP_VERSION=$(SWAYLOCK_VERSION)
 
 mako-build:
-	cd mako; git fetch;  git checkout $(MAKO_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	make meson-ninja-build -e APP_FOLDER=mako -e APP_VERSION=$(MAKO_VERSION)
 
 wf-recorder-build:
-	cd wf-recorder; git fetch; git checkout $(WF_RECORDER_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	make meson-ninja-build -e APP_FOLDER=wf-recorder -e APP_VERSION=$(WF_RECORDER_VERSION)
 
 wdisplays-build:
-	cd wdisplays; git fetch; git checkout $(WDISPLAYS_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	make meson-ninja-build -e APP_FOLDER=wdisplays -e APP_VERSION=$(WDISPLAYS_VERSION)
 
 clipman-build:
 	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install
@@ -197,7 +197,7 @@ nm-applet-install:
 # Experimental stuff
 pipewire-build:
 	sudo apt install -y --no-install-recommends $(PIPEWIRE_DEPS)
-	cd pipewire; git fetch; git checkout $(PIPEWIRE_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	make meson-ninja-build -e APP_FOLDER=pipewire -e APP_VERSION=$(PIPEWIRE_VERSION)
 
 pipewire-remove:
 	sudo apt autoremove --purge -y $(PIPEWIRE_DEPS)
