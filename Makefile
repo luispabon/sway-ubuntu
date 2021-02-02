@@ -10,6 +10,7 @@ CLIPMAN_VERSION ?= master
 PIPEWIRE_VERSION ?= master
 WDISPLAYS_VERSION ?= master
 XDG_DESKTOP_PORTAL_VERSION ?= 45699637d1c71842372323d39deb9f9a43a0fd7e
+NWG_PANEL_VERSION ?= master
 
 ifdef UPDATE
 	UPDATE_STATEMENT = git pull;
@@ -112,6 +113,11 @@ define WDISPLAYS_DEPS
 	scour
 endef
 
+define NWG_PANEL_DEPS
+	python3-pyalsa \
+	light
+endef
+
 PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
@@ -130,6 +136,7 @@ install-repos:
 	@git clone https://github.com/PipeWire/pipewire.git || echo "Already installed"
 	@git clone https://github.com/emersion/xdg-desktop-portal-wlr.git || echo "Already installed"
 	@git clone https://github.com/cyclopsian/wdisplays.git || echo "Already installed"
+	@git clone https://github.com/nwg-piotr/nwg-panel.git || echo "Already installed"
 	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 
 install-dependencies:
@@ -194,6 +201,9 @@ nm-applet-install:
 	sudo dpkg -i debs/network-manager*.deb
 	sudo apt -f install
 	sudo apt-mark hold network-manager-gnome
+
+nwg-panel-install:
+	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python setup.py install --optimize=1
 
 # Experimental stuff
 pipewire-build:
