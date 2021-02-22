@@ -1,6 +1,6 @@
-# Sway builds for Ubuntu 20.04
+# Sway builds for Ubuntu 20.10
 
-Ubuntu 20.04 build system for sway and related tools.
+Ubuntu 20.10 build system for sway and related tools.
 
 Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I personally prefer to keep up to date with those.
 
@@ -26,7 +26,7 @@ Experimental:
 
 Debs:
 
-  * network-manager-gnom: supersedes Ubuntu focal's version, hides unmanaged interfaces (eg virtualbox, docker, etc)
+  * network-manager-gnom: supersedes Ubuntu grovvy's version, hides unmanaged interfaces (eg virtualbox, docker, etc)
 
 # Prepare your system's environment
 
@@ -44,7 +44,7 @@ Some operations require root to complete. While building `sudo` will be run at s
 
 # Note: `meson` and `ninja`
 
-Make sure you uninstall `meson` and `ninja` if you've already installed them via Ubuntu's package manager. We need newer versions than what's available in 20.04 and we'll be installing the latest versions using `pip` instead.
+Make sure you uninstall `meson` and `ninja` if you've already installed them via Ubuntu's package manager. We need newer versions than what's available in 20.10 and we'll be installing the latest versions using `pip` instead.
 
 # Dependencies
 
