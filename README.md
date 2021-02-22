@@ -66,6 +66,12 @@ Have a look at the [Makefile](Makefile) for all the different build targets, in 
 make core
 ```
 
+If you just want to update the apps (not wlroots and sway):
+
+```
+make apps
+```
+
 ## Updating repositories before building
 
 Simply pass `-e UPDATE=true` to `make`:

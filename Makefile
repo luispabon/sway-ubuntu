@@ -123,6 +123,7 @@ PIP_PACKAGES=ninja meson
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 
 yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build
+apps: install-repos install-dependencies kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build
 
 install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
