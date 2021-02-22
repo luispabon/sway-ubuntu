@@ -1,5 +1,5 @@
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= 89b4bc4bc7e52ecdcc809b4ffe48cba93de2794e
+SWAY_VERSION ?= b0e8f4ade2e6e7831671faa05bdfd2cac0059adf
 WLROOTS_VERSION ?= 533a36f05a46472a29700df47100a4c5c59c5f29
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
