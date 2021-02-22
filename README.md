@@ -106,3 +106,27 @@ This goes without saying, but if you're updating `wlroots` make sure it's built 
 # Experimental apps
 
 These are not included in the `yolo` target. These are apps I've put in there to try stuff but that I don't necessarily know if they'll break something down the line. For instance, `pipewire` (needed for screen sharing against `xdg-desktop-portal`) is not yet a thing in Ubuntu and should be alright, but it is a system dependency other apps might have dependencies on (Firefox might come in the future with it, or chrome, or require the system's version).
+
+# Known issues
+## Can't copy paste from Firefox address bar
+
+See https://github.com/swaywm/wlroots/issues/2421
+
+The change has already been made to sway via commit [5ad3990a6c9beae44392e1962223623c0a4e3fa9](https://github.com/swaywm/sway/commit/5ad3990a6c9beae44392e1962223623c0a4e3fa9) [(this pull request)](https://github.com/swaywm/sway/pull/5788).
+
+Long story short, this will cease to be an issue as long as you're using gtk >=3.24.24, which will be the case from ubuntu hirsute.
+
+Fix: revert this change on your local sway checkout:
+
+```
+cd sway
+git revert 5ad3990a6c9beae44392e1962223623c0a4e3fa9
+```
+
+You can get a clean copy of sway after you upgrade to ubuntu hirsute.
+
+## Can't compile latest master on wlroots and sway
+
+Indeed. You can see I've set `SWAY_VERSION` and `WLROOTS_VERSION` on the Makefile to a certain commit hash each. Unfortunately these are the latest versions that will compile cleanly with Ubuntu Focal and Ubuntu Groovy, as versions after that require libwayland-server0 >=1.19. This is a crucial system library and can't be cleanly updated on these versions of ubuntu without upsetting hundreds of other packages.
+
+You might be able to cherry-pick certain commits for fixes or whatever on your local checkouts of wlroots and sway. Just make sure you create a branch for these from the commits on the Makefile, do your picks there, and tweak `SWAY_VERSION` and `WLROOTS_VERSION` to use that branch.
