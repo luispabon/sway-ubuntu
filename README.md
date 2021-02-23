@@ -1,6 +1,6 @@
-# Sway builds for Ubuntu 20.10
+# Sway builds for Ubuntu 21.04
 
-Ubuntu 20.10 build system for sway and related tools.
+Ubuntu 21.04 build system for sway and related tools.
 
 Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I personally prefer to keep up to date with those.
 
@@ -19,14 +19,11 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
   * waybar
   * wf-recorder
   * wofi
-
-Experimental:
-
-  * Pipewire 0.3
+  * xdg-desktop-portal-wlr (for screen sharing)
 
 Debs:
 
-  * network-manager-gnom: supersedes Ubuntu grovvy's version, hides unmanaged interfaces (eg virtualbox, docker, etc)
+  * network-manager-gnome: supersedes Ubuntu hirsute's version, hides unmanaged interfaces (eg virtualbox, docker, etc)
 
 # Prepare your system's environment
 
@@ -109,10 +106,47 @@ If you deleted the `build` folder on the app, simply build the app again before 
 
 This goes without saying, but if you're updating `wlroots` make sure it's built first so that any of the other apps that link against it (like `sway`) have the right version to link against instead of linking against the version you're replacing.
 
-# Experimental apps
+# Screen sharing
 
-These are not included in the `yolo` target. These are apps I've put in there to try stuff but that I don't necessarily know if they'll break something down the line. For instance, `pipewire` (needed for screen sharing against `xdg-desktop-portal`) is not yet a thing in Ubuntu and should be alright, but it is a system dependency other apps might have dependencies on (Firefox might come in the future with it, or chrome, or require the system's version).
+Ubuntu 21.04 finally comes with all the plumbing to make it all work:
+  * pipewire 0.3
+  * xdg-desktop-portal-gtk with the correct build flags
 
+
+## Limitations
+
+xdg-desktop-portal-wlr does not support window sharing, [only entire outputs](https://github.com/emersion/xdg-desktop-portal-wlr/wiki/FAQ). No way around this. Apps won't show anything on the window list.
+
+## How to install
+
+```
+make xdg-desktop-portal-wlr -e UPDATE=true
+```
+
+This will compile & install & make available the wlr portal to xdg-desktop-portal.
+
+After that, make sure you add the following to your sway config:
+
+```
+exec /usr/libexec/xdg-desktop-portal -r
+```
+
+For some reason, even though xdg-desktop-portal does init by itself, it might be doing it too early to catch on the fact we're running sway and won't try to automatically start the wlr portal when needed.
+
+## Firefox
+
+Should work out of the box on Firefox 84+ using the wayland backend. There's no list of windows, so you need to tell it to share your entire screen when prompted.
+
+## Chromium
+
+Ubuntu's Chromium snap currently does not seem to have webrtc pipewire support.
+
+## Chrome
+
+Open `chrome://flags` and flip `WebRTC PipeWire support` to `enabled`. Should work after that.
+
+
+Open `chrome://flags`
 # Known issues
 ## Can't copy paste from Firefox address bar
 

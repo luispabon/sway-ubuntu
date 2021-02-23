@@ -9,7 +9,7 @@ WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
 PIPEWIRE_VERSION ?= master
 WDISPLAYS_VERSION ?= master
-XDG_DESKTOP_PORTAL_VERSION ?= 45699637d1c71842372323d39deb9f9a43a0fd7e
+XDG_DESKTOP_PORTAL_VERSION ?= master
 NWG_PANEL_VERSION ?= master
 
 ifdef UPDATE
@@ -77,7 +77,7 @@ endef
 define WAYBAR_RUNTIME_DEPS
 	libgtkmm-3.0-1v5 \
 	libspdlog1 \
-	libjsoncpp1 \
+	libjsoncpp24 \
 	libnl-3-200 \
 	libnl-genl-3-200 \
 	libdbusmenu-gtk3-4
@@ -109,6 +109,10 @@ define PIPEWIRE_DEPS
 	libsndfile1-dev
 endef
 
+define XDG_DESKTOP_PORTAL_DEPS
+	libpipewire-0.3-dev
+endef
+
 define WDISPLAYS_DEPS
 	scour
 endef
@@ -122,8 +126,8 @@ PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 
-yolo: install-repos install-dependencies wlroots-build sway-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install
-apps: install-repos install-dependencies kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install
+yolo: install-repos install-dependencies core apps
+apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install
 
 install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
@@ -134,7 +138,6 @@ install-repos:
 	@git clone https://github.com/emersion/mako.git || echo "Already installed"
 	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
 	@git clone https://github.com/yory8/clipman.git || echo "Already installed"
-	@git clone https://github.com/PipeWire/pipewire.git || echo "Already installed"
 	@git clone https://github.com/emersion/xdg-desktop-portal-wlr.git || echo "Already installed"
 	@git clone https://github.com/cyclopsian/wdisplays.git || echo "Already installed"
 	@git clone https://github.com/nwg-piotr/nwg-panel.git || echo "Already installed"
@@ -152,13 +155,14 @@ install-dependencies:
 		$(WF_RECORDER_DEPS) \
 		$(CLIPMAN_DEPS) \
 		$(PIPEWIRE_DEPS) \
-		$(WDISPLAYS_DEPS)
+		$(WDISPLAYS_DEPS) \
+		$(XDG_DESKTOP_PORTAL_DEPS)
 
 	sudo apt -y install build-essential
 	sudo pip3 install $(PIP_PACKAGES) --upgrade
 
 clean-dependencies:
-	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS)
+	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
 
 core: wlroots-build sway-build
 
@@ -205,14 +209,7 @@ nm-applet-install:
 nwg-panel-install:
 	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python setup.py install --optimize=1
 
-# Experimental stuff
-pipewire-build:
-	sudo apt install -y --no-install-recommends $(PIPEWIRE_DEPS)
-	make meson-ninja-build -e APP_FOLDER=pipewire -e APP_VERSION=$(PIPEWIRE_VERSION)
-
-pipewire-remove:
-	sudo apt autoremove --purge -y $(PIPEWIRE_DEPS)
-	cd pipewire; sudo ninja -C build uninstall
-
 xdg-desktop-portal-wlr-build:
 	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	sudo ln -sf /usr/local/libexec/xdg-desktop-portal-wlr /usr/libexec/
+	sudo ln -sf /usr/local/share/xdg-desktop-portal/portals/wlr.portal /usr/share/xdg-desktop-portal/portals/
