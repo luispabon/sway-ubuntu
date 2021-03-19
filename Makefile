@@ -1,6 +1,6 @@
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= b0e8f4ade2e6e7831671faa05bdfd2cac0059adf
-WLROOTS_VERSION ?= 533a36f05a46472a29700df47100a4c5c59c5f29
+SWAY_VERSION ?= master
+WLROOTS_VERSION ?= master
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
@@ -166,10 +166,17 @@ clean-dependencies:
 
 core: wlroots-build sway-build
 
+# Temporary workaround - Sway 1.6+ and wlroots need wayland 1.19 and hirsute does not have it
+# packages in debs/ come from debian experimental soooooo.... so far they seem to work fine with sway. Might
+# break ubuntu's gnome or kde, dunno
+libwayland-1.19:
+	sudo dpkg -i debs/libwayland*.deb
+	sudo apt -f install
+
 meson-ninja-build:
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
-wlroots-build:
+wlroots-build: libwayland-1.19
 	make meson-ninja-build -e APP_FOLDER=wlroots -e APP_VERSION=$(WLROOTS_VERSION)
 
 sway-build:
