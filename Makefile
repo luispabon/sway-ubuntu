@@ -11,6 +11,10 @@ PIPEWIRE_VERSION ?= master
 WDISPLAYS_VERSION ?= master
 XDG_DESKTOP_PORTAL_VERSION ?= master
 NWG_PANEL_VERSION ?= master
+WAYFIRE_VERSION ?= master
+WF_CONFIG_VERSION ?= master
+WF_SHELL_VERSION ?= master
+WCM_VERSION ?= master
 
 ifdef UPDATE
 	UPDATE_STATEMENT = git pull;
@@ -120,7 +124,14 @@ endef
 
 define NWG_PANEL_DEPS
 	python3-pyalsa \
+	python3-i3ipc \
 	light
+endef
+
+define WAYFIRE_DEPS
+	doctest-dev \
+	libglm-dev \
+	libxml2-dev
 endef
 
 PIP_PACKAGES=ninja meson
@@ -128,7 +139,9 @@ PIP_PACKAGES=ninja meson
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 
 yolo: install-repos install-dependencies core apps
+core: wlroots-build sway-build
 apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install
+wf: wf-config-build wayfire-build wf-shell-build
 
 install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
@@ -142,9 +155,13 @@ install-repos:
 	@git clone https://github.com/emersion/xdg-desktop-portal-wlr.git || echo "Already installed"
 	@git clone https://github.com/cyclopsian/wdisplays.git || echo "Already installed"
 	@git clone https://github.com/nwg-piotr/nwg-panel.git || echo "Already installed"
+	@git clone https://github.com/WayfireWM/wf-config.git || echo "Already installed"
+	@git clone https://github.com/WayfireWM/wayfire.git || echo "Already installed"
+	@git clone https://github.com/WayfireWM/wf-shell.git || echo "Already installed"
+	@git clone https://github.com/WayfireWM/wcm.git || echo "Already installed"
 	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 
-install-dependencies:
+install-dependencies: libwayland-1.19
 	sudo apt -y install --no-install-recommends \
 		$(BASE_CLI_DEPS) \
 		$(WLROOTS_DEPS) \
@@ -157,6 +174,8 @@ install-dependencies:
 		$(CLIPMAN_DEPS) \
 		$(PIPEWIRE_DEPS) \
 		$(WDISPLAYS_DEPS) \
+		$(WAYFIRE_DEPS) \
+		$(NWG_PANEL_DEPS) \
 		$(XDG_DESKTOP_PORTAL_DEPS)
 
 	sudo apt -y install build-essential
@@ -164,8 +183,6 @@ install-dependencies:
 
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
-
-core: wlroots-build sway-build
 
 # Temporary workaround - Sway 1.6+ and wlroots need wayland 1.19 and hirsute does not have it
 # packages in debs/ come from debian experimental soooooo.... so far they seem to work fine with sway. Might
@@ -177,7 +194,7 @@ libwayland-1.19:
 meson-ninja-build:
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
-wlroots-build: libwayland-1.19
+wlroots-build:
 	make meson-ninja-build -e APP_FOLDER=wlroots -e APP_VERSION=$(WLROOTS_VERSION)
 
 sway-build:
@@ -201,6 +218,18 @@ wf-recorder-build:
 
 wdisplays-build:
 	make meson-ninja-build -e APP_FOLDER=wdisplays -e APP_VERSION=$(WDISPLAYS_VERSION)
+
+wf-config-build:
+	make meson-ninja-build -e APP_FOLDER=wf-config -e APP_VERSION=$(WF_CONFIG_VERSION)
+
+wayfire-build:
+	make meson-ninja-build -e APP_FOLDER=wayfire -e APP_VERSION=$(WAYFIRE_VERSION)
+
+wf-shell-build:
+	make meson-ninja-build -e APP_FOLDER=wf-shell -e APP_VERSION=$(WF_SHELL_VERSION)
+
+wcm-build:
+	make meson-ninja-build -e APP_FOLDER=wcm -e APP_VERSION=$(WCM_VERSION)
 
 clipman-build:
 	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install
