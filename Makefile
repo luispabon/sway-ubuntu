@@ -153,7 +153,7 @@ install-repos:
 	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
 	@git clone https://github.com/yory8/clipman.git || echo "Already installed"
 	@git clone https://github.com/emersion/xdg-desktop-portal-wlr.git || echo "Already installed"
-	@git clone https://github.com/cyclopsian/wdisplays.git || echo "Already installed"
+	@git clone https://github.com/luispabon/wdisplays.git || echo "Already installed"
 	@git clone https://github.com/nwg-piotr/nwg-panel.git || echo "Already installed"
 	@git clone https://github.com/WayfireWM/wf-config.git || echo "Already installed"
 	@git clone https://github.com/WayfireWM/wayfire.git || echo "Already installed"
