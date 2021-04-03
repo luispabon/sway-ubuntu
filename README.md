@@ -129,17 +129,38 @@ make xdg-desktop-portal-wlr -e UPDATE=true
 
 This will compile & install & make available the wlr portal to xdg-desktop-portal.
 
-After that, make sure you add the following to your sway config:
+After that, make sure systemd has the following env var `XDG_CURRENT_DESKTOP=sway`. This won't work by merely setting that env var before you start sway. The best way is to create a file containing that at `~/.config/environment.d/xdg.conf`, [like so](https://github.com/luispabon/sway-dotfiles/blob/master/configs/environment.d/xdg.conf). Then reboot.
+
+## Choosing an output to share
+
+When choosing to share a screen from an app, xdpw won't give it a list of available windows or screens to the app to display and for you to choose from. Instead, you'll need to tell your app to share everything and after that the xdpw's output chooser will kick in.
+
+By default it'll be `slurp` - your cursor will change to a crosshairs and you'll be able to click on a screen to share only that one.
+
+The chooser is configurable, see docs here:
+https://github.com/emersion/xdg-desktop-portal-wlr/blob/master/xdg-desktop-portal-wlr.5.scd#output-chooser
+
+For instance, if you'd like to use wofi/dmenu, place the following on `~/config/xdg-desktop-portal-wlr/config`
 
 ```
-exec /usr/libexec/xdg-desktop-portal -r
+[screencast]
+chooser_type=dmenu
+chooser_cmd=wofi --show=dmenu
 ```
 
-For some reason, even though xdg-desktop-portal does init by itself, it might be doing it too early to catch on the fact we're running sway and won't try to automatically start the wlr portal when needed.
+The actual defaults (if you had no config file) are:
+
+```
+[screencast]
+chooser_type=simple
+chooser_cmd="slurp -f %o -o"
+```
 
 ## Firefox
 
-Should work out of the box on Firefox 84+ using the wayland backend. There's no list of windows, so you need to tell it to share your entire screen when prompted.
+Should work out of the box on Firefox 84+ using the wayland backend.
+
+When you start screensharing, on the dialog asking you what to share tell it to "Use operating system settings" when prompted. After that, the output chooser for xdpw will kick in, as explained on the previous section.
 
 ## Chromium
 
@@ -149,28 +170,8 @@ Ubuntu's Chromium snap currently does not seem to have webrtc pipewire support.
 
 Open `chrome://flags` and flip `WebRTC PipeWire support` to `enabled`. Should work after that.
 
+### Note
+It looks like this option has disappeared and is not available anymore.
 
-Open `chrome://flags`
 # Known issues
-## Can't copy paste from Firefox address bar
-
-See https://github.com/swaywm/wlroots/issues/2421
-
-The change has already been made to sway via commit [5ad3990a6c9beae44392e1962223623c0a4e3fa9](https://github.com/swaywm/sway/commit/5ad3990a6c9beae44392e1962223623c0a4e3fa9) [(this pull request)](https://github.com/swaywm/sway/pull/5788).
-
-Long story short, this will cease to be an issue as long as you're using gtk >=3.24.24, which will be the case from ubuntu hirsute.
-
-Fix: revert this change on your local sway checkout:
-
-```
-cd sway
-git revert 5ad3990a6c9beae44392e1962223623c0a4e3fa9
-```
-
-You can get a clean copy of sway after you upgrade to ubuntu hirsute.
-
-## Can't compile latest master on wlroots and sway
-
-Indeed. You can see I've set `SWAY_VERSION` and `WLROOTS_VERSION` on the Makefile to a certain commit hash each. Unfortunately these are the latest versions that will compile cleanly with Ubuntu Focal and Ubuntu Groovy, as versions after that require libwayland-server0 >=1.19. This is a crucial system library and can't be cleanly updated on these versions of ubuntu without upsetting hundreds of other packages.
-
-You might be able to cherry-pick certain commits for fixes or whatever on your local checkouts of wlroots and sway. Just make sure you create a branch for these from the commits on the Makefile, do your picks there, and tweak `SWAY_VERSION` and `WLROOTS_VERSION` to use that branch.
+Nothing at the moment.
