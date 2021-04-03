@@ -15,15 +15,19 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
   * clipman
   * kanshi
   * mako
+  * nwg-panel
   * swaylock-effects
   * waybar
   * wf-recorder
   * wofi
   * xdg-desktop-portal-wlr (for screen sharing)
+  * wayfire / wf-config / wcm
+  * wf-shell
 
 Debs:
 
   * network-manager-gnome: supersedes Ubuntu hirsute's version, hides unmanaged interfaces (eg virtualbox, docker, etc)
+  * wayland 1.19 (required for sway 1.6+)
 
 # Prepare your system's environment
 
