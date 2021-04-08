@@ -138,11 +138,13 @@ PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 
+## Meta installation targets
 yolo: install-repos install-dependencies core apps
 core: wlroots-build sway-build
-apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install
-wf: wf-config-build wayfire-build wf-shell-build
+apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install nwg-panel-install
+wf: wf-config-build wayfire-build wf-shell-build wcm-build
 
+## Build dependencies
 install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
 	@git clone https://github.com/swaywm/wlroots.git || echo "Already installed"
@@ -194,6 +196,7 @@ libwayland-1.19:
 meson-ninja-build:
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
+## Sway
 wlroots-build:
 	make meson-ninja-build -e APP_FOLDER=wlroots -e APP_VERSION=$(WLROOTS_VERSION)
 
@@ -201,6 +204,7 @@ sway-build:
 	make meson-ninja-build -e APP_FOLDER=sway -e APP_VERSION=$(SWAY_VERSION)
 	sudo cp -f $(PWD)/sway/contrib/grimshot /usr/local/bin/
 
+## Apps
 kanshi-build:
 	make meson-ninja-build -e APP_FOLDER=kanshi -e APP_VERSION=$(KANSHI_VERSION)
 
@@ -218,18 +222,6 @@ wf-recorder-build:
 
 wdisplays-build:
 	make meson-ninja-build -e APP_FOLDER=wdisplays -e APP_VERSION=$(WDISPLAYS_VERSION)
-
-wf-config-build:
-	make meson-ninja-build -e APP_FOLDER=wf-config -e APP_VERSION=$(WF_CONFIG_VERSION)
-
-wayfire-build:
-	make meson-ninja-build -e APP_FOLDER=wayfire -e APP_VERSION=$(WAYFIRE_VERSION)
-
-wf-shell-build:
-	make meson-ninja-build -e APP_FOLDER=wf-shell -e APP_VERSION=$(WF_SHELL_VERSION)
-
-wcm-build:
-	make meson-ninja-build -e APP_FOLDER=wcm -e APP_VERSION=$(WCM_VERSION)
 
 clipman-build:
 	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install
@@ -253,3 +245,17 @@ xdg-desktop-portal-wlr-build: xdg-desktop-portal-wlr-iniparser-workaround
 	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 	sudo ln -sf /usr/local/libexec/xdg-desktop-portal-wlr /usr/libexec/
 	sudo ln -sf /usr/local/share/xdg-desktop-portal/portals/wlr.portal /usr/share/xdg-desktop-portal/portals/
+
+## Wayfire
+
+wf-config-build:
+	make meson-ninja-build -e APP_FOLDER=wf-config -e APP_VERSION=$(WF_CONFIG_VERSION)
+
+wayfire-build:
+	make meson-ninja-build -e APP_FOLDER=wayfire -e APP_VERSION=$(WAYFIRE_VERSION)
+
+wf-shell-build:
+	make meson-ninja-build -e APP_FOLDER=wf-shell -e APP_VERSION=$(WF_SHELL_VERSION)
+
+wcm-build:
+	make meson-ninja-build -e APP_FOLDER=wcm -e APP_VERSION=$(WCM_VERSION)
