@@ -124,7 +124,7 @@ xdg-desktop-portal-wlr does not support window sharing, [only entire outputs](ht
 ## How to install
 
 ```
-make xdg-desktop-portal-wlr -e UPDATE=true
+make xdg-desktop-portal-wlr-build -e UPDATE=true
 ```
 
 This will compile & install & make available the wlr portal to xdg-desktop-portal.

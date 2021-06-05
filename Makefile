@@ -115,7 +115,7 @@ endef
 
 define XDG_DESKTOP_PORTAL_DEPS
 	libpipewire-0.3-dev \
-	libiniparser-dev
+	libinih-dev
 endef
 
 define WDISPLAYS_DEPS
@@ -237,15 +237,7 @@ nm-applet-install:
 nwg-panel-install:
 	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python setup.py install --optimize=1
 
-# Works around https://github.com/emersion/xdg-desktop-portal-wlr/issues/96
-xdg-desktop-portal-wlr-iniparser-workaround:
-	cd xdg-desktop-portal-wlr; git checkout .; git grep -l '#include <dictionary.h>' | xargs sed -i -e 's|#include <dictionary.h>|#include <iniparser/dictionary.h>|'; git grep -l '#include <iniparser.h>' | xargs sed -i -e 's|#include <iniparser.h>|#include <iniparser/iniparser.h>|'
-	cd xdg-desktop-portal-wlr; sed -i 's/iniparser.h/iniparser\/iniparser.h/g' meson.build
-	cd xdg-desktop-portal-wlr; sed -i 's/dictionary.h/iniparser\/dictionary.h/g' meson.build
-
 xdg-desktop-portal-wlr-build:
-	cd xdg-desktop-portal-wlr; git checkout .
-	make xdg-desktop-portal-wlr-iniparser-workaround
 	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 	sudo ln -sf /usr/local/libexec/xdg-desktop-portal-wlr /usr/libexec/
 	sudo ln -sf /usr/local/share/xdg-desktop-portal/portals/wlr.portal /usr/share/xdg-desktop-portal/portals/
