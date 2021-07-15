@@ -246,7 +246,7 @@ nm-applet-install:
 	sudo dpkg -i debs/network-manager*.deb || sudo apt -f install
 
 nwg-panel-install:
-	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python setup.py install --optimize=1
+	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python3 setup.py install --optimize=1
 
 xdg-desktop-portal-wlr-build:
 	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
