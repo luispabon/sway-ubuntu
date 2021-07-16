@@ -1,6 +1,6 @@
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= v1.6
-WLROOTS_VERSION ?= 0.13.0
+SWAY_VERSION ?= v1.6.1
+WLROOTS_VERSION ?= 0.14.1
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
@@ -15,6 +15,7 @@ WAYFIRE_VERSION ?= master
 WF_CONFIG_VERSION ?= master
 WF_SHELL_VERSION ?= master
 WCM_VERSION ?= master
+SEATD_VERSION ?= master
 
 ifdef UPDATE
 	UPDATE_STATEMENT = git pull;
@@ -50,7 +51,9 @@ define WLROOTS_DEPS
 	libxcb-xfixes0-dev \
 	libxkbcommon-dev \
 	libxcb-xinput-dev \
-	libx11-xcb-dev
+	libx11-xcb-dev \
+	libxcb-dri3-dev \
+	libxcb-res0-dev
 endef
 
 define SWAY_DEPS
@@ -140,7 +143,7 @@ NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sud
 
 ## Meta installation targets
 yolo: install-repos install-dependencies core apps
-core: wlroots-build sway-build
+core: seatd-build wlroots-build sway-build
 apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install nwg-panel-install
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
 
@@ -162,8 +165,9 @@ install-repos:
 	@git clone https://github.com/WayfireWM/wf-shell.git || echo "Already installed"
 	@git clone https://github.com/WayfireWM/wcm.git || echo "Already installed"
 	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
+	@git clone https://git.sr.ht/~kennylevinsen/seatd || echo "Already installed"
 
-install-dependencies: libwayland-1.19
+install-dependencies: libwayland-1.19 wayland-protocols-1.21
 	sudo apt -y install --no-install-recommends \
 		$(BASE_CLI_DEPS) \
 		$(WLROOTS_DEPS) \
@@ -193,10 +197,17 @@ libwayland-1.19:
 	sudo dpkg -i debs/libwayland*.deb
 	sudo apt -f install
 
+wayland-protocols-1.21:
+	sudo dpkg -i debs/wayland-protocols*.deb
+	sudo apt -f install
+
 meson-ninja-build:
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 ## Sway
+seatd-build:
+	make meson-ninja-build -e APP_FOLDER=seatd -e APP_VERSION=${SEATD_VERSION}
+
 wlroots-build:
 	make meson-ninja-build -e APP_FOLDER=wlroots -e APP_VERSION=$(WLROOTS_VERSION)
 
@@ -235,7 +246,7 @@ nm-applet-install:
 	sudo dpkg -i debs/network-manager*.deb || sudo apt -f install
 
 nwg-panel-install:
-	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python setup.py install --optimize=1
+	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python3 setup.py install --optimize=1
 
 xdg-desktop-portal-wlr-build:
 	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
