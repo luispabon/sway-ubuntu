@@ -1,5 +1,5 @@
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= v1.6.1
+SWAY_VERSION ?= 1.6.1
 WLROOTS_VERSION ?= 0.14.1
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
