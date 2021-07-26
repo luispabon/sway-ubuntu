@@ -78,7 +78,8 @@ define WAYBAR_BUILD_DEPS
 	libnl-3-dev \
 	libnl-genl-3-dev \
 	libappindicator3-dev \
-	libdbusmenu-gtk3-dev
+	libdbusmenu-gtk3-dev \
+	libxkbregistry-dev
 endef
 
 define WAYBAR_RUNTIME_DEPS
