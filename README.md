@@ -52,7 +52,7 @@ Some operations require root to complete. While building `sudo` will be run at s
 
 # Note: `meson` and `ninja`
 
-Make sure you uninstall `meson` and `ninja` if you've already installed them via Ubuntu's package manager. We need newer versions than what's available in 20.10 and we'll be installing the latest versions using `pip` instead.
+Make sure you uninstall `meson` and `ninja` if you've already installed them via Ubuntu's package manager. Sway and wlroots routinely require the very latest versions of both, so we'll be installing the latest versions using `python3-pip` instead.
 
 # Dependencies
 
