@@ -93,6 +93,18 @@ make core swaylock-build -e SWAY_VERSION=1.5 -e WLROOTS_VERSION=0.11.0 -e UPDATE
 
 Note the lack of `SWAYLOCK_VERSION` up there - `master` is already the default.
 
+## The .env file
+
+You can create an `.env` file and place any overrides to environment variables in there, if you need to. This allows you to for these values in a more permanent and convenient fashion than command line (`make -e FOO=bar ...`) arguments, and without changing the [Makefile](Makefile) which is handy if you need to do a `git pull` on this project. The `.env` file is ignored in source control.
+
+Example syntax:
+
+```
+SWAY_VERSION=master
+WLROOTS_VERSION=master
+SOME_APP_BUILD_MODIFIER_VAR=yes
+```
+
 # Uninstalling stuff
 
 When installing the stuff we're compiling, `ninja` will be copying the relevant files wherever they need to be in the system, without creating a `deb` package. Therefore, `apt autoremove app` won't work.

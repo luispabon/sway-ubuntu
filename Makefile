@@ -1,3 +1,7 @@
+# Include environment overrides
+include .env
+export
+
 # Define here which branches or tags you want to build for each project
 SWAY_VERSION ?= 1.6.1
 WLROOTS_VERSION ?= 0.14.1
@@ -267,3 +271,7 @@ wf-shell-build:
 
 wcm-build:
 	make meson-ninja-build -e APP_FOLDER=wcm -e APP_VERSION=$(WCM_VERSION)
+
+## Debugging
+printenv:
+	env
