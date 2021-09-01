@@ -12,12 +12,14 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
 
   * Sway
   * wlroots
+  * seatd
   * clipman
   * kanshi
   * mako
   * nwg-panel
   * swaylock-effects
   * waybar
+  * wdisplays
   * wf-recorder
   * wofi
   * xdg-desktop-portal-wlr (for screen sharing)
@@ -28,6 +30,7 @@ Debs:
 
   * network-manager-gnome: supersedes Ubuntu hirsute's version, hides unmanaged interfaces (eg virtualbox, docker, etc)
   * wayland 1.19 (required for sway 1.6+)
+  * wayland-protocols 1.21  (required for wlroots 0.14.1 and sway 1.6.1+)
 
 ## How about older Ubuntus?
 
