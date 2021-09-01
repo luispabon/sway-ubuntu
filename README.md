@@ -102,7 +102,7 @@ Note the lack of `SWAYLOCK_VERSION` up there - `master` is already the default.
 
 ## The .env file
 
-You can create an `.env` file and place any overrides to environment variables in there, if you need to. This allows you to for these values in a more permanent and convenient fashion than command line (`make -e FOO=bar ...`) arguments, and without changing the [Makefile](Makefile) which is handy if you need to do a `git pull` on this project. The `.env` file is ignored in source control.
+You can create an `.env` file and place any overrides to environment variables in there, if you need to. This allows you to for these values in a more permanent and convenient fashion than command line (`make -e FOO=bar ...`) arguments, and without changing the [Makefile](Makefile) which is handy if you need to do a `git pull` on this project. The `.env` file is ignored in source control and as such you need to create it yourself if you need it.
 
 Example syntax:
 
