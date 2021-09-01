@@ -29,6 +29,10 @@ Debs:
   * network-manager-gnome: supersedes Ubuntu hirsute's version, hides unmanaged interfaces (eg virtualbox, docker, etc)
   * wayland 1.19 (required for sway 1.6+)
 
+## How about older Ubuntus?
+
+There are (unmaintained) branches of this project for earlier versions of Ubuntu. They won't receive any fixes, but if you want to use them and want to send PRs with fixes these are welcome.
+
 # Prepare your system's environment
 
 You must make sure that
