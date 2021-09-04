@@ -147,7 +147,7 @@ PIP_PACKAGES=ninja meson
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 
 ## Meta installation targets
-yolo: install-repos install-dependencies core apps
+yolo: install-dependencies install-repos core apps
 core: seatd-build wlroots-build sway-build
 apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install nwg-panel-install
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
