@@ -199,12 +199,10 @@ clean-dependencies:
 # packages in debs/ come from debian experimental soooooo.... so far they seem to work fine with sway. Might
 # break ubuntu's gnome or kde, dunno
 libwayland-1.19:
-	sudo dpkg -i debs/libwayland*.deb
-	sudo apt -f install
+	sudo dpkg -i debs/libwayland*.deb || sudo apt -fy install
 
 wayland-protocols-1.21:
-	sudo dpkg -i debs/wayland-protocols*.deb
-	sudo apt -f install
+	sudo dpkg -i debs/wayland-protocols*.deb || sudo apt -fy install
 
 meson-ninja-build:
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
