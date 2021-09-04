@@ -11,6 +11,7 @@ SWAYLOCK_VERSION ?= master
 MAKO_VERSION ?= master
 WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
+SWAYIMG_VERSION ?= master
 PIPEWIRE_VERSION ?= master
 WDISPLAYS_VERSION ?= master
 XDG_DESKTOP_PORTAL_VERSION ?= master
@@ -106,6 +107,14 @@ define WF_RECORDER_DEPS
 	opencl-c-headers
 endef
 
+define SWAYIMG_DEPS
+	libjpeg-dev \
+	librsvg2-dev \
+	libwebp-dev \
+	libavif-dev \
+	libgif-dev
+endef
+
 define CLIPMAN_DEPS
 	golang-go
 endef
@@ -149,7 +158,7 @@ NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sud
 ## Meta installation targets
 yolo: install-dependencies install-repos core apps
 core: seatd-build wlroots-build sway-build
-apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install nwg-panel-install
+apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install nwg-panel-install swayimg-build
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
 
 ## Build dependencies
@@ -171,6 +180,7 @@ install-repos:
 	@git clone https://github.com/WayfireWM/wcm.git || echo "Already installed"
 	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 	@git clone https://git.sr.ht/~kennylevinsen/seatd || echo "Already installed"
+	@git clone https://github.com/artemsen/swayimg.git || echo "Already installed"
 
 install-dependencies: libwayland-1.19 wayland-protocols-1.21
 	sudo apt -y install --no-install-recommends \
@@ -183,6 +193,7 @@ install-dependencies: libwayland-1.19 wayland-protocols-1.21
 		$(SWAYLOCK_DEPS) \
 		$(WF_RECORDER_DEPS) \
 		$(CLIPMAN_DEPS) \
+		$(SWAYIMG_DEPS) \
 		$(PIPEWIRE_DEPS) \
 		$(WDISPLAYS_DEPS) \
 		$(WAYFIRE_DEPS) \
@@ -240,6 +251,9 @@ wdisplays-build:
 clipman-build:
 	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install
 	sudo cp -f ~/go/bin/clipman /usr/local/bin/
+
+swayimg-build:
+	make meson-ninja-build -e APP_FOLDER=swayimg -e APP_VERSION=$(SWAYIMG_VERSION)
 
 wofi-build:
 	cd wofi; hg pull; hg update; $(NINJA_CLEAN_BUILD_INSTALL)
