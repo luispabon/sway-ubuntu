@@ -18,6 +18,7 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
   * mako
   * nwg-panel
   * swaylock-effects
+  * swayimg
   * waybar
   * wdisplays
   * wf-recorder
