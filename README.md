@@ -1,4 +1,4 @@
-# Sway builds for Ubuntu 21.04
+# Sway builds for Ubuntu 21.04 (amd64)
 
 Ubuntu 21.04 build system for sway and related tools.
 
@@ -35,6 +35,33 @@ Debs:
 ## How about older Ubuntus?
 
 There are (unmaintained) branches of this project for earlier versions of Ubuntu. They won't receive any fixes, but if you want to use them and want to send PRs with fixes these are welcome.
+
+## How about the next (still in dev) version of Ubuntu
+
+No reason it won't work. The [debs](debs) files might pose a problem though as they won't be needed beyond Ubuntu 21.04 so make sure you tweak the Makefile not to
+install them. The section below on ARM says how to do this (don't follow the instructions on the `.env` file though).
+
+## How about arm (eg Raspberri PI)
+
+The [debs](debs) folder has a bunch of actual deb files brought forward from debian that are newer than the same ones in Ubuntu. This is to ensure we can
+build & install sway >= 1.6. These are for `amd64`.
+
+There's also a version of nm-applet that won't show unmanaged interfaces (eg docker and virtualbox).
+
+If you want to use this repository, you can. You do need to tweak your makefile to avoid installing those debs and to install the highest version that can
+be built on Ubuntu 21.04 without those debs. Simply comment out the contents of the following targets on the makefile:
+  * `libwayland-1.19`
+  * `wayland-protocols-1.21`
+  * `nm-applet-install`
+
+Then create a `.env` file with the following:
+
+```
+SWAY_VERSION=v1.5
+WLROOTS_VERSION=0.12.0
+```
+
+Then you can go ahead.
 
 # Prepare your system's environment
 

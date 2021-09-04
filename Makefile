@@ -249,7 +249,7 @@ wofi-build:
 	sudo cp -f $(shell pwd)/wofi/build/wofi /usr/local/bin/
 
 nm-applet-install:
-	sudo dpkg -i debs/network-manager*.deb || sudo apt -f install
+	sudo dpkg -i debs/network-manager*.deb || sudo apt -fy install
 
 nwg-panel-install:
 	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python3 setup.py install --optimize=1
