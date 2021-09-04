@@ -1,6 +1,8 @@
 # Include environment overrides
-include .env
-export
+ifneq ("$(wildcard .env)","")
+	include .env
+	export
+endif
 
 # Define here which branches or tags you want to build for each project
 SWAY_VERSION ?= 1.6.1
