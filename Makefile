@@ -12,7 +12,6 @@ MAKO_VERSION ?= master
 WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
 SWAYIMG_VERSION ?= master
-PIPEWIRE_VERSION ?= master
 WDISPLAYS_VERSION ?= master
 XDG_DESKTOP_PORTAL_VERSION ?= master
 NWG_PANEL_VERSION ?= master
@@ -119,17 +118,6 @@ define CLIPMAN_DEPS
 	golang-go
 endef
 
-define PIPEWIRE_DEPS
-	libgstreamer1.0-dev \
-	libgstreamer-plugins-base1.0-dev \
-	libasound2-dev \
-	libbluetooth-dev \
-	libsbc-dev \
-	libjack-jackd2-dev \
-	libsdl2-dev \
-	libsndfile1-dev
-endef
-
 define XDG_DESKTOP_PORTAL_DEPS
 	libpipewire-0.3-dev \
 	libinih-dev
@@ -194,7 +182,6 @@ install-dependencies: libwayland-1.19 wayland-protocols-1.21
 		$(WF_RECORDER_DEPS) \
 		$(CLIPMAN_DEPS) \
 		$(SWAYIMG_DEPS) \
-		$(PIPEWIRE_DEPS) \
 		$(WDISPLAYS_DEPS) \
 		$(WAYFIRE_DEPS) \
 		$(NWG_PANEL_DEPS) \
