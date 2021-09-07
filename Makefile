@@ -5,6 +5,10 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
+EPOXY_VERSION ?= master
+XORGPROTO_VERSION ?= xorgproto-2021.4
+XCVT_VERSION ?= master
+XSERVER_VERSION ?= xwayland-21.1.2
 SWAY_VERSION ?= 1.6.1
 WLROOTS_VERSION ?= 0.14.1
 KANSHI_VERSION ?= master
@@ -31,6 +35,18 @@ define BASE_CLI_DEPS
 	git \
 	mercurial \
 	python3-pip
+endef
+
+define XSERVER_BUILD_DEPS
+	libgcrypt20-dev \
+	libxfont-dev \
+	libxkbfile-dev \
+	libxshmfence-dev \
+	mesa-common-dev \
+	nettle-dev \
+	x11-xkb-utils \
+	xfonts-utils \
+	xutils-dev
 endef
 
 define WLROOTS_DEPS
@@ -147,12 +163,17 @@ NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sud
 
 ## Meta installation targets
 yolo: install-dependencies install-repos core apps
-core: seatd-build wlroots-build sway-build
+xwayland: libepoxy-build xorgproto-build xcvt-build xserver-build
+core: xwayland seatd-build wlroots-build sway-build
 apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install nwg-panel-install swayimg-build
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
 
 ## Build dependencies
 install-repos:
+	@git clone https://github.com/anholt/libepoxy || echo "Already installed"
+	@git clone https://gitlab.freedesktop.org/xorg/proto/xorgproto || echo "Already installed"
+	@git clone https://gitlab.freedesktop.org/xorg/lib/libxcvt.git || echo "Already installed"
+	@git clone git://anongit.freedesktop.org/xorg/xserver || echo "Already installed"
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
 	@git clone https://github.com/swaywm/wlroots.git || echo "Already installed"
 	@git clone https://github.com/emersion/kanshi.git || echo "Already installed"
@@ -175,6 +196,7 @@ install-repos:
 install-dependencies: libwayland-1.19 wayland-protocols-1.21
 	sudo apt -y install --no-install-recommends \
 		$(BASE_CLI_DEPS) \
+		$(XSERVER_BUILD_DEPS) \
 		$(WLROOTS_DEPS) \
 		$(SWAY_DEPS) \
 		$(GTK_LAYER_DEPS) \
@@ -206,6 +228,23 @@ wayland-protocols-1.21:
 
 meson-ninja-build:
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+
+## XWayland
+libepoxy-build:
+	make meson-ninja-build -e APP_FOLDER=libepoxy -e APP_VERSION=${EPOXY_VERSION}
+
+xorgproto-build:
+	cd xorgproto; make distclean || true; git fetch; git checkout ${APP_VERSION}; ./autogen.sh
+	make -C xorgproto
+	sudo make -C xorgproto install
+
+xcvt-build:
+	make meson-ninja-build -e APP_FOLDER=libxcvt -e APP_VERSION=${XCVT_VERSION}
+
+xserver-build:
+	cd xserver; make distclean || true; git fetch; git checkout ${APP_VERSION}; ./autogen.sh --disable-docs --disable-devel-docs --enable-xwayland --disable-xorg --disable-xvfb --disable-xnest --disable-xquartz --disable-xwin
+	make -C xserver
+	sudo make -C xserver install
 
 ## Sway
 seatd-build:
