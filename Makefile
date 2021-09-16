@@ -209,7 +209,7 @@ meson-ninja-build:
 
 ## Sway
 seatd-build:
-	make meson-ninja-build -e APP_FOLDER=seatd -e APP_VERSION=${SEATD_VERSION}
+	make meson-ninja-build -e APP_FOLDER=seatd -e APP_VERSION=$(SEATD_VERSION)
 
 wlroots-build:
 	make meson-ninja-build -e APP_FOLDER=wlroots -e APP_VERSION=$(WLROOTS_VERSION)
