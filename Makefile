@@ -1,3 +1,6 @@
+REQUIRED_UBUNTU_CODENAME=hirsute
+CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
+
 # Include environment overrides
 ifneq ("$(wildcard .env)","")
 	include .env
@@ -145,6 +148,10 @@ PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
 
+
+check-ubuntu-version:
+	@if [ "$(CURRENT_UBUNTU_CODENAME)" != "$(REQUIRED_UBUNTU_CODENAME)" ]; then echo "### \n#  Unsupported version of ubuntu (current: '$(CURRENT_UBUNTU_CODENAME)', required: '$(REQUIRED_UBUNTU_CODENAME)').\n#  Check this repo's remote branches (git branch -r) to see if your version is there\n###"; exit 1; fi
+
 ## Meta installation targets
 yolo: install-dependencies install-repos core apps
 core: seatd-build wlroots-build sway-build
@@ -198,13 +205,13 @@ clean-dependencies:
 # Temporary workaround - Sway 1.6+ and wlroots need wayland 1.19 and hirsute does not have it
 # packages in debs/ come from debian experimental soooooo.... so far they seem to work fine with sway. Might
 # break ubuntu's gnome or kde, dunno
-libwayland-1.19:
+libwayland-1.19: check-ubuntu-version
 	sudo dpkg -i debs/libwayland*.deb || sudo apt -fy install
 
-wayland-protocols-1.21:
+wayland-protocols-1.21: check-ubuntu-version
 	sudo dpkg -i debs/wayland-protocols*.deb || sudo apt -fy install
 
-meson-ninja-build:
+meson-ninja-build: check-ubuntu-version
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 ## Sway
