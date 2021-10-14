@@ -1,6 +1,6 @@
-# Sway builds for Ubuntu 21.04 (amd64)
+# Sway builds for Ubuntu 21.10 (amd64)
 
-Ubuntu 21.04 build system for sway and related tools.
+Ubuntu 21.10 build system for sway and related tools.
 
 Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I personally prefer to keep up to date with those.
 
@@ -29,9 +29,7 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
 
 Debs:
 
-  * network-manager-gnome: supersedes Ubuntu hirsute's version, hides unmanaged interfaces (eg virtualbox, docker, etc)
-  * wayland 1.19 (required for sway 1.6+)
-  * wayland-protocols 1.21  (required for wlroots 0.14.1 and sway 1.6.1+)
+  * wayland-protocols 1.23  (required for wlroots > 0.14.1 and sway > 1.7)
 
 ## How about older Ubuntus?
 
@@ -39,30 +37,12 @@ There are (unmaintained) branches of this project for earlier versions of Ubuntu
 
 ## How about the next (still in dev) version of Ubuntu
 
-No reason it won't work. The [debs](debs) files might pose a problem though as they won't be needed beyond Ubuntu 21.04 so make sure you tweak the Makefile not to
+No reason it won't work. The [debs](debs) files might pose a problem though as they won't be needed beyond Ubuntu 21.10 so make sure you tweak the Makefile not to
 install them. The section below on ARM says how to do this (don't follow the instructions on the `.env` file though).
 
 ## How about arm (eg Raspberri PI)
 
-The [debs](debs) folder has a bunch of actual deb files brought forward from debian that are newer than the same ones in Ubuntu. This is to ensure we can
-build & install sway >= 1.6. These are for `amd64`.
-
-There's also a version of nm-applet that won't show unmanaged interfaces (eg docker and virtualbox).
-
-If you want to use this repository, you can. You do need to tweak your makefile to avoid installing those debs and to install the highest version that can
-be built on Ubuntu 21.04 without those debs. Simply comment out the contents of the following targets on the makefile:
-  * `libwayland-1.19`
-  * `wayland-protocols-1.21`
-  * `nm-applet-install`
-
-Then create a `.env` file with the following:
-
-```
-SWAY_VERSION=v1.5
-WLROOTS_VERSION=0.12.0
-```
-
-Then you can go ahead.
+We aren't currently using any amd64 hardcoded debs, so arm should work without change.
 
 # Prepare your system's environment
 
@@ -73,6 +53,10 @@ LD_LIBRARY_PATH=/usr/local/lib/x86_64-linux-gnu/
 ```
 
 is set on your environment prior to starting Sway. This is required so that any apps you compile here can find each other's library, as they're placed somewhere else than Ubuntu's default library path.
+
+## Note: LD_LIBRARY_PATH on arm
+
+The value might be completely different. I don't use arm so I can't check. Please let me know if you know via a GitHub issue or a PR to this file.
 
 # Note: `sudo`
 
@@ -159,7 +143,7 @@ This goes without saying, but if you're updating `wlroots` make sure it's built 
 
 # Screen sharing
 
-Ubuntu 21.04 finally comes with all the plumbing to make it all work:
+Ubuntu 21.10 finally comes with all the plumbing to make it all work:
   * pipewire 0.3
   * xdg-desktop-portal-gtk with the correct build flags
 

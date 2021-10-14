@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=hirsute
+REQUIRED_UBUNTU_CODENAME=impish
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
@@ -8,8 +8,8 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= 1.6.1
-WLROOTS_VERSION ?= 0.14.1
+SWAY_VERSION ?= master
+WLROOTS_VERSION ?= master
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
@@ -155,7 +155,7 @@ check-ubuntu-version:
 ## Meta installation targets
 yolo: install-dependencies install-repos core apps
 core: seatd-build wlroots-build sway-build
-apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nm-applet-install nwg-panel-install swayimg-build
+apps: kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nwg-panel-install swayimg-build
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
 
 ## Build dependencies
@@ -179,7 +179,7 @@ install-repos:
 	@git clone https://git.sr.ht/~kennylevinsen/seatd || echo "Already installed"
 	@git clone https://github.com/artemsen/swayimg.git || echo "Already installed"
 
-install-dependencies: libwayland-1.19 wayland-protocols-1.21
+install-dependencies: wayland-protocols-1.23
 	sudo apt -y install --no-install-recommends \
 		$(BASE_CLI_DEPS) \
 		$(WLROOTS_DEPS) \
@@ -202,13 +202,7 @@ install-dependencies: libwayland-1.19 wayland-protocols-1.21
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
 
-# Temporary workaround - Sway 1.6+ and wlroots need wayland 1.19 and hirsute does not have it
-# packages in debs/ come from debian experimental soooooo.... so far they seem to work fine with sway. Might
-# break ubuntu's gnome or kde, dunno
-libwayland-1.19: check-ubuntu-version
-	sudo dpkg -i debs/libwayland*.deb || sudo apt -fy install
-
-wayland-protocols-1.21: check-ubuntu-version
+wayland-protocols-1.23: check-ubuntu-version
 	sudo dpkg -i debs/wayland-protocols*.deb || sudo apt -fy install
 
 meson-ninja-build: check-ubuntu-version
@@ -254,9 +248,6 @@ swayimg-build:
 wofi-build:
 	cd wofi; hg pull; hg update; $(NINJA_CLEAN_BUILD_INSTALL)
 	sudo cp -f $(shell pwd)/wofi/build/wofi /usr/local/bin/
-
-nm-applet-install:
-	sudo dpkg -i debs/network-manager*.deb || sudo apt -fy install
 
 nwg-panel-install:
 	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python3 setup.py install --optimize=1
