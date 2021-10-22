@@ -141,6 +141,39 @@ If you deleted the `build` folder on the app, simply build the app again before 
 
 This goes without saying, but if you're updating `wlroots` make sure it's built first so that any of the other apps that link against it (like `sway`) have the right version to link against instead of linking against the version you're replacing.
 
+# Firefox popup issues (Ubuntu 21.10)
+
+Firefox (94+) have recently reworked their popup handling code, and it does away with all the issues around missing right clicks, add-on popups not opening on certain displays etc. It does require matching fixes on GTK, which will be available upstream from v3.24.31. Ubuntu 21.10 has 3.24.30.
+
+The fixes in question:
+  * [https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/3941](https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/3941)
+  * [https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/3944](https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/3944)
+
+There's a Makefile target to download gtk's sources, patch them with the above, and re-build the relevant .deb files and install them. First, you need to make sure you enable sources for the main Ubuntu repo, like so:
+
+```
+# /etc/apt/sources.list
+deb-src http://gb.archive.ubuntu.com/ubuntu/ impish main
+```
+
+Then run:
+
+```
+make firefox-friendly-gtk
+```
+
+And grab a coffee. GTK is a big old chunk of code and takes some time to compile.
+
+Possible issues:
+ * If you get any issues when applying your patches, you can check the error messages - likely, if this is the second time you run this, the patches were already applied and you can just tell patch to ignore the changes
+ * If an apt upgrade brought in a newer version of gtk, you'll need to clean up & re-run the build
+
+This is basically the nuclear option that will download sources and apply the patches again from scratch, before re-building again:
+
+```
+make firefox-friendly-gtk-clean firefox-friendly-gtk
+```
+
 # Screen sharing
 
 Ubuntu 21.10 finally comes with all the plumbing to make it all work:
