@@ -162,7 +162,7 @@ Then run:
 make firefox-friendly-gtk
 ```
 
-And grab a coffee. GTK is a big old chunk of code and takes some time to compile.
+And grab a coffee. GTK is a big old chunk of code and takes some time to compile (13 minutes on my i7-7700HQ).
 
 Possible issues:
  * If you get any issues when applying your patches, you can check the error messages - likely, if this is the second time you run this, the patches were already applied and you can just tell patch to ignore the changes
