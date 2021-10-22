@@ -199,6 +199,12 @@ install-dependencies: wayland-protocols-1.23
 	sudo apt -y install build-essential
 	sudo pip3 install $(PIP_PACKAGES) --upgrade
 
+firefox-friendly-gtk:
+	cd gtk && ./rebuild_install.sh
+
+firefox-friendly-gtk-clean:
+	cd gtk && rm -Rf gtk+3.0* *.deb *.ddeb
+
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
 
