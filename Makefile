@@ -199,6 +199,7 @@ install-dependencies: wayland-protocols-1.23
 	sudo apt -y install build-essential
 	sudo pip3 install $(PIP_PACKAGES) --upgrade
 
+# Note: remove from Ubuntu 22.04
 firefox-friendly-gtk:
 	cd gtk && ./rebuild_install.sh
 
