@@ -4,7 +4,7 @@ Ubuntu 21.10 build system for sway and related tools.
 
 Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I personally prefer to keep up to date with those.
 
-This repository contains a Makefile based build system for all of these. We are NOT building deb packages (see my [old repository which did](https://github.com/luispabon/sway-ubuntu-deb-build) if you want to do so), but we're directly building from source and installing as root.
+This repository contains a Makefile based build system for all of these. We are NOT building deb packages (see my [old repository which did](https://github.com/luispabon/sway-ubuntu-deb-build) if you want to do so), but we're directly building from source and installing as root (note: there's actually a deb build of GTK 3 to fix some issues with Firefox in 21.10, more info below).
 
 This means you should make sure you do not install any of the ubuntu provided packages, and indeed dependents (for instance other tools that depend on wlroots) should also be compiled here.
 
@@ -30,6 +30,9 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
 Debs:
 
   * wayland-protocols 1.23  (required for wlroots > 0.14.1 and sway > 1.7)
+
+Deb rebuilds:
+  * GTK 3.24.30 with Firefox fixes
 
 ## How about older Ubuntus?
 
@@ -141,7 +144,7 @@ If you deleted the `build` folder on the app, simply build the app again before 
 
 This goes without saying, but if you're updating `wlroots` make sure it's built first so that any of the other apps that link against it (like `sway`) have the right version to link against instead of linking against the version you're replacing.
 
-# Firefox popup issues (Ubuntu 21.10)
+# Firefox popup issues (Ubuntu 21.10) & GTK 3.24.30 rebuild
 
 Firefox (94+) have recently reworked their popup handling code, and it does away with all the issues around missing right clicks, add-on popups not opening on certain displays etc. It does require matching fixes on GTK, which will be available upstream from v3.24.31. Ubuntu 21.10 has 3.24.30.
 
