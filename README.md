@@ -167,6 +167,8 @@ make firefox-friendly-gtk
 
 And grab a coffee. GTK is a big old chunk of code and takes some time to compile (13 minutes on my i7-7700HQ).
 
+Next time you do an `apt upgrade` some of the packages we just built will be re-set to the distro's version (since our re-compiled packages haven't changed the version number and the remote repo has higher priority than local). This is not a problem as long as `libgtk-3` is not one of them. At the time of writing this, it shouldn't be. `-common` and `-dev` packages don't contain any binary code and those are the ones `apt` will re-install.
+
 Possible issues:
  * If you get any issues when applying your patches, you can check the error messages - likely, if this is the second time you run this, the patches were already applied and you can just tell patch to ignore the changes
  * If an apt upgrade brought in a newer version of gtk, you'll need to clean up & re-run the build
@@ -182,7 +184,6 @@ make firefox-friendly-gtk-clean firefox-friendly-gtk
 Ubuntu 21.10 finally comes with all the plumbing to make it all work:
   * pipewire 0.3
   * xdg-desktop-portal-gtk with the correct build flags
-
 
 ## Limitations
 
