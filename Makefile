@@ -30,6 +30,10 @@ ifdef UPDATE
 	UPDATE_STATEMENT = git pull;
 endif
 
+ifdef ASAN_BUILD
+	ASAN_STATEMENT = -Db_sanitize=address
+endif
+
 define BASE_CLI_DEPS
 	git \
 	mercurial \
@@ -146,7 +150,7 @@ endef
 
 PIP_PACKAGES=ninja meson
 
-NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build; ninja -C build; sudo ninja -C build install
+NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build $(ASAN_STATEMENT); ninja -C build; sudo ninja -C build install
 
 
 check-ubuntu-version:
