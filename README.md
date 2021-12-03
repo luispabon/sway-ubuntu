@@ -242,4 +242,4 @@ Open `chrome://flags` and flip `WebRTC PipeWire support` to `enabled`. Should wo
 It looks like this option has disappeared and is not available anymore.
 
 # Known issues
-Nothing at the moment.
+ * `fatal error: wlr/render/allocator.h: No such file or directory` or some other similar build errors when building wlroots: the library recently moved from github to freedesktop's gitlab. Simply delete the `wlroots` folder and run `make install-repos`
