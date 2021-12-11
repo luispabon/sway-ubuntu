@@ -183,7 +183,7 @@ install-repos:
 	@git clone https://git.sr.ht/~kennylevinsen/seatd || echo "Already installed"
 	@git clone https://github.com/artemsen/swayimg.git || echo "Already installed"
 
-install-dependencies: wayland-protocols-1.23
+install-dependencies: wayland-protocols-deb-install
 	sudo apt -y install --no-install-recommends \
 		$(BASE_CLI_DEPS) \
 		$(WLROOTS_DEPS) \
@@ -213,7 +213,7 @@ firefox-friendly-gtk-clean:
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
 
-wayland-protocols-1.23: check-ubuntu-version
+wayland-protocols-deb-install: check-ubuntu-version
 	sudo dpkg -i debs/wayland-protocols*.deb || sudo apt -fy install
 
 meson-ninja-build: check-ubuntu-version
