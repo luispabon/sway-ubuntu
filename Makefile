@@ -8,7 +8,7 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= master
+SWAY_VERSION ?= 4732325f591455f1e4bdcb35652505a8a636663a
 WLROOTS_VERSION ?= master
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
