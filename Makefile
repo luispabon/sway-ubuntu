@@ -9,7 +9,7 @@ endif
 
 # Define here which branches or tags you want to build for each project
 SWAY_VERSION ?= 4732325f591455f1e4bdcb35652505a8a636663a
-WLROOTS_VERSION ?= master
+WLROOTS_VERSION ?= 0fcc842291d9d714e9c210839ae72429c5c3eae4
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
