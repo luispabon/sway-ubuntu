@@ -45,7 +45,9 @@ install them. The section below on ARM says how to do this (don't follow the ins
 
 ## How about arm (eg Raspberri PI)
 
-We aren't currently using any amd64 hardcoded debs, so arm should work without change.
+Unfortunately, for sway 1.7 we need a newer version of libwayland (1.20 instead of 1.19). Those packages are on the `debs` folder, but unfortunately they're amd64.
+
+If you're on arm, check out this repo at revision ea976377e001c300a4eeed547813e1591bf27317, which will be able to build an earlier version of sway and wlroots, close to 0.15 and 1.7 respectively.
 
 # Prepare your system's environment
 
