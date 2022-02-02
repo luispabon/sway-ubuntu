@@ -8,8 +8,8 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= 4732325f591455f1e4bdcb35652505a8a636663a
-WLROOTS_VERSION ?= 0fcc842291d9d714e9c210839ae72429c5c3eae4
+SWAY_VERSION=v1.7
+WLROOTS_VERSION=4377b5529279aa9dab64256d22ad0f2e9009843c
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
@@ -215,6 +215,9 @@ clean-dependencies:
 
 wayland-protocols-deb-install: check-ubuntu-version
 	sudo dpkg -i debs/wayland-protocols*.deb || sudo apt -fy install
+
+wayland-1.20-deb-install: check-ubuntu-version
+	sudo dpkg -i debs/libwayland*.deb || sudo apt -fy install
 
 meson-ninja-build: check-ubuntu-version
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
