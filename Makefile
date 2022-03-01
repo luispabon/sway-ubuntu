@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=impish
+REQUIRED_UBUNTU_CODENAME=jammy
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
@@ -8,8 +8,8 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION=v1.7
-WLROOTS_VERSION=4377b5529279aa9dab64256d22ad0f2e9009843c
+SWAY_VERSION=master
+WLROOTS_VERSION=master
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
@@ -154,7 +154,7 @@ NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sud
 
 
 check-ubuntu-version:
-	@if [ "$(CURRENT_UBUNTU_CODENAME)" != "$(REQUIRED_UBUNTU_CODENAME)" ]; then echo "### \n#  Unsupported version of ubuntu (current: '$(CURRENT_UBUNTU_CODENAME)', required: '$(REQUIRED_UBUNTU_CODENAME)').\n#  Check this repo's remote branches (git branch -r) to see if your version is there\n###"; exit 1; fi
+	@if [ "$(CURRENT_UBUNTU_CODENAME)" != "$(REQUIRED_UBUNTU_CODENAME)" ]; then echo "### \n#  Unsupported version of ubuntu (current: '$(CURRENT_UBUNTU_CODENAME)', required: '$(REQUIRED_UBUNTU_CODENAME)').\n#  Check this repo's remote branches (git branch -r) to see if your version is there and switch to it (these branches are deprecated but should work for your version)\n###"; exit 1; fi
 
 ## Meta installation targets
 yolo: install-dependencies install-repos core apps
@@ -183,7 +183,7 @@ install-repos:
 	@git clone https://git.sr.ht/~kennylevinsen/seatd || echo "Already installed"
 	@git clone https://github.com/artemsen/swayimg.git || echo "Already installed"
 
-install-dependencies: wayland-protocols-deb-install
+install-dependencies:
 	sudo apt -y install --no-install-recommends \
 		$(BASE_CLI_DEPS) \
 		$(WLROOTS_DEPS) \
@@ -203,21 +203,8 @@ install-dependencies: wayland-protocols-deb-install
 	sudo apt -y install build-essential
 	sudo pip3 install $(PIP_PACKAGES) --upgrade
 
-# Note: remove from Ubuntu 22.04
-firefox-friendly-gtk:
-	cd gtk && ./rebuild_install.sh
-
-firefox-friendly-gtk-clean:
-	cd gtk && rm -Rf gtk+3.0* *.deb *.ddeb
-
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
-
-wayland-protocols-deb-install: check-ubuntu-version
-	sudo dpkg -i debs/wayland-protocols*.deb || sudo apt -fy install
-
-wayland-1.20-deb-install: check-ubuntu-version
-	sudo dpkg -i debs/libwayland*.deb || sudo apt -fy install
 
 meson-ninja-build: check-ubuntu-version
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)

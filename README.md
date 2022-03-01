@@ -1,12 +1,12 @@
-# Sway builds for Ubuntu 21.10 (amd64)
+# Sway builds for Ubuntu 22.04 (amd64)
 
-Ubuntu 21.10 build system for sway and related tools.
+Ubuntu 22.04 build system for sway and related tools.
 
 Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I personally prefer to keep up to date with those.
 
-This repository contains a Makefile based build system for all of these. We are NOT building deb packages (see my [old repository which did](https://github.com/luispabon/sway-ubuntu-deb-build) if you want to do so), but we're directly building from source and installing as root (note: there's actually a deb build of GTK 3 to fix some issues with Firefox in 21.10, more info below).
+This repository contains a Makefile based build system for all of these. We are NOT building deb packages (see my [old repository which did](https://github.com/luispabon/sway-ubuntu-deb-build) if you want to do so), but we're directly building from source and installing as root.
 
-This means you should make sure you do not install any of the ubuntu provided packages, and indeed dependents (for instance other tools that depend on wlroots) should also be compiled here.
+<!-- This means you should make sure you do not install any of the ubuntu provided packages, and indeed dependents (for instance other tools that depend on wlroots) should also be compiled here. -->
 
 Apps provided (make sure you do not install these via Ubuntu's package repos):
 
@@ -29,25 +29,24 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
 
 Debs:
 
-  * wayland-protocols 1.23  (required for wlroots > 0.14.1 and sway > 1.7)
+  * none
 
 Deb rebuilds:
-  * GTK 3.24.30 with Firefox fixes
+  * none
 
 ## How about older Ubuntus?
 
-There are (unmaintained) branches of this project for earlier versions of Ubuntu. They won't receive any fixes, but if you want to use them and want to send PRs with fixes these are welcome.
+There are (unmaintained) branches of this project for earlier versions of Ubuntu. They won't receive any fixes,, but if you want to use them and want to send PRs with fixes these are welcome.
+
+I usually switch to the next ubuntu a few weeks before release, so typically old branches will have the very latest versions of the apps that are physically compilable given the libraries available.
 
 ## How about the next (still in dev) version of Ubuntu
 
-No reason it won't work. The [debs](debs) files might pose a problem though as they won't be needed beyond Ubuntu 21.10 so make sure you tweak the Makefile not to
-install them. The section below on ARM says how to do this (don't follow the instructions on the `.env` file though).
+No reason it won't work. The [debs](debs) files (if any) might pose a problem though as they are typically backported from the next Ubuntu version intu the current when needed, and won't be needed on the next version, so make sure you tweak the Makefile not to install them. The section below on ARM says how to do this (don't follow the instructions on the `.env` file though).
 
 ## How about arm (eg Raspberri PI)
 
-Unfortunately, for sway 1.7 we need a newer version of libwayland (1.20 instead of 1.19). Those packages are on the `debs` folder, but unfortunately they're amd64.
-
-If you're on arm, check out this repo at revision ea976377e001c300a4eeed547813e1591bf27317, which will be able to build an earlier version of sway and wlroots, close to 0.15 and 1.7 respectively.
+Should currently work, no binary packages are installed from this repo at the time of writing this.
 
 # Prepare your system's environment
 
@@ -146,44 +145,9 @@ If you deleted the `build` folder on the app, simply build the app again before 
 
 This goes without saying, but if you're updating `wlroots` make sure it's built first so that any of the other apps that link against it (like `sway`) have the right version to link against instead of linking against the version you're replacing.
 
-# Firefox popup issues (Ubuntu 21.10) & GTK 3.24.30 rebuild
-
-Firefox (94+) have recently reworked their popup handling code, and it does away with all the issues around missing right clicks, add-on popups not opening on certain displays etc. It does require matching fixes on GTK, which will be available upstream from v3.24.31. Ubuntu 21.10 has 3.24.30.
-
-The fixes in question:
-  * [https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/3941](https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/3941)
-  * [https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/3944](https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/3944)
-
-There's a Makefile target to download gtk's sources, patch them with the above, and re-build the relevant .deb files and install them. First, you need to make sure you enable sources for the main Ubuntu repo, like so:
-
-```
-# /etc/apt/sources.list
-deb-src http://gb.archive.ubuntu.com/ubuntu/ impish main
-```
-
-Then run:
-
-```
-make firefox-friendly-gtk
-```
-
-And grab a coffee. GTK is a big old chunk of code and takes some time to compile (13 minutes on my i7-7700HQ).
-
-Next time you do an `apt upgrade` some of the packages we just built will be re-set to the distro's version (since our re-compiled packages haven't changed the version number and the remote repo has higher priority than local). This is not a problem as long as `libgtk-3` is not one of them. At the time of writing this, it shouldn't be. `-common` and `-dev` packages don't contain any binary code and those are the ones `apt` will re-install.
-
-Possible issues:
- * If you get any issues when applying your patches, you can check the error messages - likely, if this is the second time you run this, the patches were already applied and you can just tell patch to ignore the changes
- * If an apt upgrade brought in a newer version of gtk, you'll need to clean up & re-run the build
-
-This is basically the nuclear option that will download sources and apply the patches again from scratch, before re-building again:
-
-```
-make firefox-friendly-gtk-clean firefox-friendly-gtk
-```
-
 # Screen sharing
 
-Ubuntu 21.10 finally comes with all the plumbing to make it all work:
+Ubuntu 22.04 comes with all the plumbing to make it all work:
   * pipewire 0.3
   * xdg-desktop-portal-gtk with the correct build flags
 
