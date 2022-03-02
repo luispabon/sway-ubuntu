@@ -42,7 +42,7 @@ I usually switch to the next ubuntu a few weeks before release, so typically old
 
 ## How about the next (still in dev) version of Ubuntu
 
-No reason it won't work. The [debs](debs) files (if any) might pose a problem though as they are typically backported from the next Ubuntu version intu the current when needed, and won't be needed on the next version, so make sure you tweak the Makefile not to install them. The section below on ARM says how to do this (don't follow the instructions on the `.env` file though).
+No reason it won't work. The [debs](debs) files (if any) might pose a problem though as they are typically backported from the next Ubuntu version intu the current when needed, and won't be needed on the next version, so make sure you tweak the Makefile not to install them.
 
 ## How about arm (eg Raspberri PI)
 
@@ -60,7 +60,7 @@ is set on your environment prior to starting Sway. This is required so that any 
 
 ## Note: LD_LIBRARY_PATH on arm
 
-The value might be completely different. I don't use arm so I can't check. Please let me know if you know via a GitHub issue or a PR to this file.
+The value will almost certainly be completely different. I don't use arm so I can't check. Please let me know if you know via a GitHub issue or a PR to this file.
 
 # Note: `sudo`
 
