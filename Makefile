@@ -90,8 +90,10 @@ define WAYBAR_BUILD_DEPS
 	libpulse-dev \
 	libnl-3-dev \
 	libnl-genl-3-dev \
-	libappindicator3-dev \
+	libappindicator-dev \
 	libdbusmenu-gtk3-dev \
+	libsndio-dev \
+	libmpdclient-dev \
 	libxkbregistry-dev
 endef
 
