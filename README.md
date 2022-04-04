@@ -10,13 +10,17 @@ This repository contains a Makefile based build system for all of these. We are 
 
 Apps provided (make sure you do not install these via Ubuntu's package repos):
 
+**Core:**
   * Sway
   * wlroots
   * seatd
+
+**Apps:**
   * clipman
   * kanshi
   * mako
   * nwg-panel
+  * rofi wayland fork - Note: this is not part of the `apps` makefile target, yet, as people already have it installed via apt. Letting some time pass to do so.
   * swaylock-effects
   * swayimg
   * waybar
@@ -24,14 +28,15 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
   * wf-recorder
   * wofi
   * xdg-desktop-portal-wlr (for screen sharing)
+
+**Wayfire apps:**
   * wayfire / wf-config / wcm
   * wf-shell
 
-Debs:
-
+**Debs:**
   * none
 
-Deb rebuilds:
+**Deb rebuilds:**
   * none
 
 ## How about older Ubuntus?
