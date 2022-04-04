@@ -25,6 +25,7 @@ WF_CONFIG_VERSION ?= master
 WF_SHELL_VERSION ?= master
 WCM_VERSION ?= master
 SEATD_VERSION ?= master
+ROFI_WAYLAND_VERSION ?= wayland
 
 ifdef UPDATE
 	UPDATE_STATEMENT = git pull;
@@ -150,6 +151,18 @@ define WAYFIRE_DEPS
 	libxml2-dev
 endef
 
+define ROFI_WAYLAND_DEPS
+	libxcb-xkb-dev \
+	libxcb-ewmh-dev \
+	libxcb-randr0-dev \
+	libxcb-cursor-dev \
+	libxcb-xinerama0-dev \
+	libstartup-notification0-dev \
+	flex \
+	bison \
+	ibxkbcommon-x11-dev
+endef
+
 PIP_PACKAGES=ninja meson
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build $(ASAN_STATEMENT); ninja -C build; sudo ninja -C build install
@@ -163,6 +176,7 @@ yolo: install-dependencies install-repos core apps
 core: seatd-build wlroots-build sway-build
 apps: xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nwg-panel-install swayimg-build
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
+rofi: rofi-wayland-build
 
 ## Build dependencies
 install-repos:
@@ -184,6 +198,8 @@ install-repos:
 	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 	@git clone https://git.sr.ht/~kennylevinsen/seatd || echo "Already installed"
 	@git clone https://github.com/artemsen/swayimg.git || echo "Already installed"
+	@git clone https://github.com/sardemff7/libgwater.git || echo "Already installed"
+	@git clone https://github.com/lbonn/rofi.git || echo "Already installed"
 
 install-dependencies:
 	sudo apt -y install --no-install-recommends \
@@ -200,6 +216,7 @@ install-dependencies:
 		$(WDISPLAYS_DEPS) \
 		$(WAYFIRE_DEPS) \
 		$(NWG_PANEL_DEPS) \
+		$(ROFI_WAYLAND_DEPS) \
 		$(XDG_DESKTOP_PORTAL_DEPS)
 
 	sudo apt -y install build-essential
@@ -240,6 +257,10 @@ wf-recorder-build:
 
 wdisplays-build:
 	make meson-ninja-build -e APP_FOLDER=wdisplays -e APP_VERSION=$(WDISPLAYS_VERSION)
+
+rofi-wayland-build:
+	make meson-ninja-build -e APP_FOLDER=libgwater
+	make meson-ninja-build -e APP_FOLDER=rofi -e APP_VERSION=$(ROFI_WAYLAND_VERSION)
 
 clipman-build:
 	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install

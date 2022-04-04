@@ -19,3 +19,5 @@ seatd
 .env
 tmp
 swayimg
+rofi
+libgwater
