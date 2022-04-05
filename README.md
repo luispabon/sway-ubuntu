@@ -47,7 +47,7 @@ I usually switch to the next ubuntu a few weeks before release, so typically old
 
 ## How about the next (still in dev) version of Ubuntu
 
-No reason it won't work. The [debs](debs) files (if any) might pose a problem though as they are typically backported from the next Ubuntu version intu the current when needed, and won't be needed on the next version, so make sure you tweak the Makefile not to install them.
+No reason it won't work. The [debs](debs) files (if any) might pose a problem though as they are typically backported from the next Ubuntu version into the current when needed, and won't be needed on the next version, so make sure you tweak the Makefile not to install them.
 
 ## How about arm (eg Raspberri PI)
 
@@ -69,7 +69,9 @@ The value will almost certainly be completely different. I don't use arm so I ca
 
 # Note: `sudo`
 
-Some operations require root to complete. While building `sudo` will be run at some point to do so and your password will be asked.
+Some operations require root to complete - typically anything that requires access to `/usr/local/`. See [Makefile](Makefile) for details.
+
+While building, `sudo` will be run at some point to do so, and your password will be asked.
 
 # Note: `meson` and `ninja`
 
@@ -144,11 +146,11 @@ cd APP
 sudo ninja -C build uninstall
 ```
 
-If you deleted the `build` folder on the app, simply build the app again before running the command above.
+If you deleted the `build` folder on the app, simply build the app again (on the same version as before) before running the command above.
 
-# wlroots dependencies
+# wlroots & seatd dependencies
 
-This goes without saying, but if you're updating `wlroots` make sure it's built first so that any of the other apps that link against it (like `sway`) have the right version to link against instead of linking against the version you're replacing.
+This goes without saying, but if you're updating `wlroots` or `seatd` make sure they're built first (`seatd`, then `wlroots`) so that any of the other apps that link against it (like `sway`) have the right version to link against instead of linking against the version you're replacing.
 
 # Screen sharing
 
@@ -158,7 +160,7 @@ Ubuntu 22.04 comes with all the plumbing to make it all work:
 
 ## Limitations
 
-xdg-desktop-portal-wlr does not support window sharing, [only entire outputs](https://github.com/emersion/xdg-desktop-portal-wlr/wiki/FAQ). No way around this. Apps won't show anything on the window list.
+xdg-desktop-portal-wlr does not support window sharing, [only entire outputs](https://github.com/emersion/xdg-desktop-portal-wlr/wiki/FAQ). No way around this. Apps won't show anything on the window list, when asked to initiate a screen sharing session.
 
 ## How to install
 
