@@ -26,7 +26,7 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
   * waybar
   * wdisplays
   * wf-recorder
-  * wofi
+  * wofi - DEPRECATED: looks like the app has been abandoned. Use rofi wayland instead.
   * xdg-desktop-portal-wlr (for screen sharing)
 
 **Wayfire apps:**
