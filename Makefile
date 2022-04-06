@@ -160,7 +160,7 @@ define ROFI_WAYLAND_DEPS
 	libstartup-notification0-dev \
 	flex \
 	bison \
-	ibxkbcommon-x11-dev
+	libxkbcommon-x11-dev
 endef
 
 PIP_PACKAGES=ninja meson
