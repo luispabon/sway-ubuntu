@@ -182,7 +182,7 @@ rofi: rofi-wayland-build
 install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
 	@git clone https://gitlab.freedesktop.org/wlroots/wlroots.git || echo "Already installed"
-	@git clone https://github.com/emersion/kanshi.git || echo "Already installed"
+	@git clone https://git.sr.ht/~emersion/kanshi || echo "Already installed"
 	@git clone https://github.com/Alexays/Waybar.git || echo "Already installed"
 	@git clone https://github.com/mortie/swaylock-effects.git || echo "Already installed"
 	@git clone https://github.com/emersion/mako.git || echo "Already installed"

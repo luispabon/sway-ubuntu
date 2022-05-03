@@ -1,3 +1,7 @@
+## Note April 2022: kanshi
+
+The repository for kanshi has changed from github to sr.ht. If you still have the github repository, make sure you delete the `kanshi` folder and run again `make install-repos`. I'll remove this notice at some point in the future.
+
 # Sway builds for Ubuntu 22.04 (amd64)
 
 Ubuntu 22.04 build system for sway and related tools.
