@@ -43,21 +43,21 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
 **Deb rebuilds:**
   * none
 
-## How about older Ubuntus?
+### How about older Ubuntus?
 
 There are (unmaintained) branches of this project for earlier versions of Ubuntu. They won't receive any fixes,, but if you want to use them and want to send PRs with fixes these are welcome.
 
 I usually switch to the next ubuntu a few weeks before release, so typically old branches will have the very latest versions of the apps that are physically compilable given the libraries available.
 
-## How about the next (still in dev) version of Ubuntu
+### How about the next (still in dev) version of Ubuntu
 
 No reason it won't work. The [debs](debs) files (if any) might pose a problem though as they are typically backported from the next Ubuntu version into the current when needed, and won't be needed on the next version, so make sure you tweak the Makefile not to install them.
 
-## How about arm (eg Raspberri PI)
+### How about arm (eg Raspberri PI)
 
 Should currently work, no binary packages are installed from this repo at the time of writing this.
 
-# Prepare your system's environment
+## Prepare your system's environment
 
 You must make sure that
 
@@ -67,25 +67,25 @@ LD_LIBRARY_PATH=/usr/local/lib/x86_64-linux-gnu/
 
 is set on your environment prior to starting Sway. This is required so that any apps you compile here can find each other's library, as they're placed somewhere else than Ubuntu's default library path.
 
-## Note: LD_LIBRARY_PATH on arm
+### Note: LD_LIBRARY_PATH on arm
 
 The value will almost certainly be completely different. I don't use arm so I can't check. Please let me know if you know via a GitHub issue or a PR to this file.
 
-# Note: `sudo`
+### Note: `sudo`
 
 Some operations require root to complete - typically anything that requires access to `/usr/local/`. See [Makefile](Makefile) for details.
 
 While building, `sudo` will be run at some point to do so, and your password will be asked.
 
-# Note: `meson` and `ninja`
+### Note: `meson` and `ninja`
 
 Make sure you uninstall `meson` and `ninja` if you've already installed them via Ubuntu's package manager. Sway and wlroots routinely require the very latest versions of both, so we'll be installing the latest versions using `python3-pip` instead.
 
-# Dependencies
+## Dependencies
 
 You need `make`. That's it really, everything else can be installed via the provided targets in the [Makefile](Makefile).
 
-# Building stuff
+## Building stuff
 
 First time, you should probably run
 
@@ -107,7 +107,7 @@ If you just want to update the apps (not wlroots and sway):
 make apps
 ```
 
-## Updating repositories before building
+### Updating repositories before building
 
 Simply pass `-e UPDATE=true` to `make`:
 
@@ -115,7 +115,7 @@ Simply pass `-e UPDATE=true` to `make`:
 make mako -e UPDATE=true
 ```
 
-## App versions
+### App versions
 
 At the top of the [Makefile](Makefile) you'll see one variable per app that defines which version of that app to build that you can override via environment. By version, I mean either a git hash, or a branch, or a tag - we will simply be running `git checkout $APP_VERSION` before building that app.
 
@@ -127,7 +127,7 @@ make core swaylock-build -e SWAY_VERSION=1.5 -e WLROOTS_VERSION=0.11.0 -e UPDATE
 
 Note the lack of `SWAYLOCK_VERSION` up there - `master` is already the default.
 
-## The .env file
+### The .env file
 
 You can create an `.env` file and place any overrides to environment variables in there, if you need to. This allows you to for these values in a more permanent and convenient fashion than command line (`make -e FOO=bar ...`) arguments, and without changing the [Makefile](Makefile) which is handy if you need to do a `git pull` on this project. The `.env` file is ignored in source control and as such you need to create it yourself if you need it.
 
@@ -139,7 +139,7 @@ WLROOTS_VERSION=master
 SOME_APP_BUILD_MODIFIER_VAR=yes
 ```
 
-# Uninstalling stuff
+## Uninstalling stuff
 
 When installing the stuff we're compiling, `ninja` will be copying the relevant files wherever they need to be in the system, without creating a `deb` package. Therefore, `apt autoremove app` won't work.
 
@@ -152,21 +152,21 @@ sudo ninja -C build uninstall
 
 If you deleted the `build` folder on the app, simply build the app again (on the same version as before) before running the command above.
 
-# wlroots & seatd dependencies
+## wlroots & seatd dependencies
 
 This goes without saying, but if you're updating `wlroots` or `seatd` make sure they're built first (`seatd`, then `wlroots`) so that any of the other apps that link against it (like `sway`) have the right version to link against instead of linking against the version you're replacing.
 
-# Screen sharing
+## Screen sharing
 
 Ubuntu 22.04 comes with all the plumbing to make it all work:
   * pipewire 0.3
   * xdg-desktop-portal-gtk with the correct build flags
 
-## Limitations
+### Limitations
 
 xdg-desktop-portal-wlr does not support window sharing, [only entire outputs](https://github.com/emersion/xdg-desktop-portal-wlr/wiki/FAQ). No way around this. Apps won't show anything on the window list, when asked to initiate a screen sharing session.
 
-## How to install
+### How to install
 
 ```
 make xdg-desktop-portal-wlr-build -e UPDATE=true
@@ -176,7 +176,7 @@ This will compile & install & make available the wlr portal to xdg-desktop-porta
 
 After that, make sure systemd has the following env var `XDG_CURRENT_DESKTOP=sway`. This won't work by merely setting that env var before you start sway. The best way is to create a file containing that at `~/.config/environment.d/xdg.conf`, [like so](https://github.com/luispabon/sway-dotfiles/blob/master/configs/environment.d/xdg.conf). Then reboot.
 
-## Choosing an output to share
+### Choosing an output to share
 
 When choosing to share a screen from an app, xdpw won't give it a list of available windows or screens to the app to display and for you to choose from. Instead, you'll need to tell your app to share everything and after that the xdpw's output chooser will kick in.
 
@@ -201,22 +201,19 @@ chooser_type=simple
 chooser_cmd="slurp -f %o -o"
 ```
 
-## Firefox
+### Firefox
 
 Should work out of the box on Firefox 84+ using the wayland backend.
 
 When you start screensharing, on the dialog asking you what to share tell it to "Use operating system settings" when prompted. After that, the output chooser for xdpw will kick in, as explained on the previous section.
 
-## Chromium
+### Chromium
 
 Ubuntu's Chromium snap currently does not seem to have webrtc pipewire support.
 
-## Chrome
+### Chrome
 
 Open `chrome://flags` and flip `WebRTC PipeWire support` to `enabled`. Should work after that.
 
-### Note
-It looks like this option has disappeared and is not available anymore.
-
-# Known issues
+## Known issues
  * `fatal error: wlr/render/allocator.h: No such file or directory` or some other similar build errors when building wlroots: the library recently moved from github to freedesktop's gitlab. Simply delete the `wlroots` folder and run `make install-repos`
