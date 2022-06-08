@@ -136,7 +136,7 @@ install-repos:
 	@git clone https://github.com/yory8/clipman.git || echo "Already installed"
 	@git clone https://github.com/PipeWire/pipewire.git || echo "Already installed"
 	@git clone https://github.com/emersion/xdg-desktop-portal-wlr.git || echo "Already installed"
-	@git clone https://github.com/cyclopsian/wdisplays.git || echo "Already installed"
+	@git clone https://github.com/luispabon/wdisplays.git || echo "Already installed"
 	@git clone https://github.com/nwg-piotr/nwg-panel.git || echo "Already installed"
 	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 
