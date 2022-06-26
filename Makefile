@@ -157,7 +157,7 @@ define ROFI_WAYLAND_DEPS
 	libxcb-randr0-dev \
 	libxcb-cursor-dev \
 	libxcb-xinerama0-dev \
-	libxcb-aux-dev \
+	libxcb-util-dev \
 	libstartup-notification0-dev \
 	flex \
 	bison \
