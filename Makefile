@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=jammy
+REQUIRED_UBUNTU_CODENAME=kinetic
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
@@ -8,8 +8,8 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= master
-WLROOTS_VERSION ?= master
+SWAY_VERSION ?= b0fc83485d2abec617a1ca352d4aa057f66c488f
+WLROOTS_VERSION ?= 1266f7424f711a3e67477b4aa5192b3c4285c7f4
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
@@ -85,7 +85,6 @@ endef
 
 define WAYBAR_BUILD_DEPS
 	libgtkmm-3.0-dev \
-	libspdlog-dev \
 	libjsoncpp-dev \
 	libfmt-dev \
 	libpulse-dev \
@@ -100,7 +99,7 @@ endef
 
 define WAYBAR_RUNTIME_DEPS
 	libgtkmm-3.0-1v5 \
-	libspdlog1 \
+	libspdlog1.10 \
 	libjsoncpp25 \
 	libnl-3-200 \
 	libnl-genl-3-200 \

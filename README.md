@@ -1,14 +1,14 @@
-## Note April 2022: kanshi
+# Sway builds for Ubuntu 22.10 (amd64)
 
-The repository for kanshi has changed from github to sr.ht. If you still have the github repository, make sure you delete the `kanshi` folder and run again `make install-repos`. I'll remove this notice at some point in the future.
-
-# Sway builds for Ubuntu 22.04 (amd64)
-
-Ubuntu 22.04 build system for sway and related tools.
+Ubuntu 22.10 build system for sway and related tools.
 
 Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I personally prefer to keep up to date with those.
 
 This repository contains a Makefile based build system for all of these. We are NOT building deb packages (see my [old repository which did](https://github.com/luispabon/sway-ubuntu-deb-build) if you want to do so), but we're directly building from source and installing as root.
+
+## Note
+
+The most current version of wlroots master requires libdrm2 2.4.113 which is not yet available on Ubuntu 22.10 (at the time of writting this it packs 2.4.112). This unfortunately limits our versions of wlroots and sway to the commits on the makefile. Will lift this limitation if and when Ubuntu updates to libdrm2 2.4.113.
 
 <!-- This means you should make sure you do not install any of the ubuntu provided packages, and indeed dependents (for instance other tools that depend on wlroots) should also be compiled here. -->
 
@@ -158,7 +158,7 @@ This goes without saying, but if you're updating `wlroots` or `seatd` make sure 
 
 ## Screen sharing
 
-Ubuntu 22.04 comes with all the plumbing to make it all work:
+Ubuntu 22.10 comes with all the plumbing to make it all work:
   * pipewire 0.3
   * xdg-desktop-portal-gtk with the correct build flags
 
@@ -214,6 +214,3 @@ Ubuntu's Chromium snap currently does not seem to have webrtc pipewire support.
 ### Chrome
 
 Open `chrome://flags` and flip `WebRTC PipeWire support` to `enabled`. Should work after that.
-
-## Known issues
- * `fatal error: wlr/render/allocator.h: No such file or directory` or some other similar build errors when building wlroots: the library recently moved from github to freedesktop's gitlab. Simply delete the `wlroots` folder and run `make install-repos`
