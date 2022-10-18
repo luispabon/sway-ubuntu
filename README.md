@@ -6,12 +6,6 @@ Even though most of these tools (including sway and wlroots) are now available i
 
 This repository contains a Makefile based build system for all of these. We are NOT building deb packages (see my [old repository which did](https://github.com/luispabon/sway-ubuntu-deb-build) if you want to do so), but we're directly building from source and installing as root.
 
-## Note
-
-The most current version of wlroots master requires libdrm2 2.4.113 which is not yet available on Ubuntu 22.10 (at the time of writting this it packs 2.4.112). This unfortunately limits our versions of wlroots and sway to the commits on the makefile. Will lift this limitation if and when Ubuntu updates to libdrm2 2.4.113.
-
-<!-- This means you should make sure you do not install any of the ubuntu provided packages, and indeed dependents (for instance other tools that depend on wlroots) should also be compiled here. -->
-
 Apps provided (make sure you do not install these via Ubuntu's package repos):
 
 **Core:**
