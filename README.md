@@ -38,7 +38,7 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
   * wf-shell
 
 **Debs:**
-  * none
+  * wayland-protocols 1.27-1
 
 **Deb rebuilds:**
   * none
@@ -55,7 +55,7 @@ No reason it won't work. The [debs](debs) files (if any) might pose a problem th
 
 ### How about arm (eg Raspberri PI)
 
-Should currently work, no binary packages are installed from this repo at the time of writing this.
+Should currently work, no arch-dependent debs are installed from this repo at the time of writing this.
 
 ## Prepare your system's environment
 

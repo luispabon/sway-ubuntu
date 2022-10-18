@@ -227,11 +227,25 @@ clean-dependencies:
 meson-ninja-build: check-ubuntu-version
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
+## Backported packages
+wayland-protocols:
+	@required_version=1.27; \
+	version=`apt-cache policy wayland-protocols | grep Installed | awk '{print $$2}'`; \
+	dpkg --compare-versions $$version lt $$required_version; \
+	current_version_too_old=$$?; \
+	echo "## Found wayland-protocols $$version"; \
+	if [ "$$current_version_too_old" = 0 ]; then \
+		echo "Installed wayland-protocols is too old, installing update..."; \
+		sudo dpkg -i debs/wayland-protocols_1.27-1_all.deb; \
+	else \
+		echo "wayland-protocols is the right version, nothing to do"; \
+	fi
+
 ## Sway
 seatd-build:
 	make meson-ninja-build -e APP_FOLDER=seatd -e APP_VERSION=$(SEATD_VERSION)
 
-wlroots-build:
+wlroots-build: wayland-protocols
 	make meson-ninja-build -e APP_FOLDER=wlroots -e APP_VERSION=$(WLROOTS_VERSION)
 
 sway-build:
