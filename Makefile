@@ -8,8 +8,9 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= master
-WLROOTS_VERSION ?= master
+SWAY_VERSION ?= v1.7
+WLROOTS_VERSION ?= 0.15
+SEATD_VERSION ?= v0.6
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
@@ -24,7 +25,6 @@ WAYFIRE_VERSION ?= master
 WF_CONFIG_VERSION ?= master
 WF_SHELL_VERSION ?= master
 WCM_VERSION ?= master
-SEATD_VERSION ?= master
 ROFI_WAYLAND_VERSION ?= wayland
 
 ifdef UPDATE
