@@ -255,7 +255,7 @@ wlroots-build: wayland-protocols
 
 sway-build:
 	make meson-ninja-build -e APP_FOLDER=sway -e APP_VERSION=$(SWAY_VERSION)
-	sudo cp -f $(PWD)/sway/contrib/grimshot /usr/local/bin/
+	sudo cp -f sway/contrib/grimshot /usr/local/bin/
 
 ## Apps
 kanshi-build:
