@@ -30,7 +30,4 @@ jobs:
       - name: Make yolo
         run: |
           cd build
-
-          whoami
-          ls -la .
           docker run --rm -v "`pwd`:/workdir" -w /workdir ubuntu_server make yolo
