@@ -19,6 +19,11 @@ jobs:
 
       - name: Make yolo
         run: |
+          mkdir build
+          chmod 666 build
+          cp Makefile build
+          cd build
+
           whoami
           ls -la .
           docker run --rm -v "`pwd`:/workdir" -w /workdir ubuntu_server make yolo
