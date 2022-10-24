@@ -1,0 +1,24 @@
+name: From scratch on Ubuntu server
+
+on:
+  # Allow workflow to be manually run from the GitHub UI
+  workflow_dispatch:
+
+  # Also, re-deploy once per week to ensure we refresh our versions
+  # of the app's runtime
+  schedule:
+    - cron: "0 0 * * 0"
+
+jobs:
+  yolo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build test container
+        run: docker build -t yolo .
+
+      - name: Make yolo
+        run: docker run --rm -it -v "`pwd`:/workdir" -w /workdir make yolo
