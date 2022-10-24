@@ -9,7 +9,7 @@ RUN apt-get update && \
         make \
         sudo
 
-RUN echo "${NON_PRIVILEGED_USER} ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/${NON_PRIVILEGED_USER}
+RUN echo "${NON_PRIVILEGED_USER} ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers.d/${NON_PRIVILEGED_USER}
 
 RUN adduser ${NON_PRIVILEGED_USER} && \
     adduser ${NON_PRIVILEGED_USER} sudo
