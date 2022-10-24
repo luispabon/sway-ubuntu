@@ -281,7 +281,6 @@ rofi-wayland-build:
 	make meson-ninja-build -e APP_FOLDER=rofi -e APP_VERSION=$(ROFI_WAYLAND_VERSION)
 
 clipman-build:
-	git config --global --add safe.directory /workdir/clipman
 	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install
 	sudo cp -f ~/go/bin/clipman /usr/local/bin/
 
