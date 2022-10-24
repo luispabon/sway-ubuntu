@@ -23,6 +23,10 @@ jobs:
           chmod 777 build
           cp Makefile build
 
+          if [ -d "debs" ]; then
+            cp debs build -r
+          fi
+
       - name: Make yolo
         run: |
           cd build
