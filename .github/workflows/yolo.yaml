@@ -17,11 +17,14 @@ jobs:
       - name: Build test container
         run: docker build -t ubuntu_server .
 
-      - name: Make yolo
+      - name: Prepare build folder
         run: |
           mkdir build
-          chmod 666 build
+          chmod 777 build
           cp Makefile build
+
+      - name: Make yolo
+        run: |
           cd build
 
           whoami
