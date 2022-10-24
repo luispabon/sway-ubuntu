@@ -7,8 +7,7 @@ RUN apt-get update && \
         git \
         lsb-release \
         make \
-        sudo \
-        tee
+        sudo
 
 RUN echo "${NON_PRIVILEGED_USER} ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/${NON_PRIVILEGED_USER}
 
