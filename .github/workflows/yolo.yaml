@@ -4,10 +4,7 @@ on:
   # Allow workflow to be manually run from the GitHub UI
   workflow_dispatch:
 
-  # Also, re-deploy once per week to ensure we refresh our versions
-  # of the app's runtime
-  schedule:
-    - cron: "0 0 * * 0"
+  push: ~
 
 jobs:
   yolo:
