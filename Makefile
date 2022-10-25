@@ -75,7 +75,8 @@ define SWAY_DEPS
 	libpango1.0-dev \
 	libcairo2-dev \
 	libgdk-pixbuf2.0-dev \
-	scdoc
+	scdoc \
+	xwayland
 endef
 
 define GTK_LAYER_DEPS
@@ -131,7 +132,9 @@ endef
 
 define XDG_DESKTOP_PORTAL_DEPS
 	libpipewire-0.3-dev \
-	libinih-dev
+	libinih-dev \
+	xdg-desktop-portal \
+	xdg-desktop-portal-dev
 endef
 
 define WDISPLAYS_DEPS
@@ -139,6 +142,7 @@ define WDISPLAYS_DEPS
 endef
 
 define NWG_PANEL_DEPS
+	python3-dev \
 	python3-pyalsa \
 	python3-i3ipc \
 	light
@@ -251,7 +255,7 @@ wlroots-build: wayland-protocols
 
 sway-build:
 	make meson-ninja-build -e APP_FOLDER=sway -e APP_VERSION=$(SWAY_VERSION)
-	sudo cp -f $(PWD)/sway/contrib/grimshot /usr/local/bin/
+	sudo cp -f sway/contrib/grimshot /usr/local/bin/
 
 ## Apps
 kanshi-build:
@@ -293,6 +297,7 @@ nwg-panel-install:
 xdg-desktop-portal-wlr-build:
 	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 	sudo ln -sf /usr/local/libexec/xdg-desktop-portal-wlr /usr/libexec/
+	sudo mkdir -p /usr/share/xdg-desktop-portal/portals/
 	sudo ln -sf /usr/local/share/xdg-desktop-portal/portals/wlr.portal /usr/share/xdg-desktop-portal/portals/
 
 ## Wayfire
