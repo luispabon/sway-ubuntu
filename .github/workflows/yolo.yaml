@@ -1,0 +1,33 @@
+name: From scratch on Ubuntu server
+
+on:
+  # Allow workflow to be manually run from the GitHub UI
+  workflow_dispatch:
+
+  push: ~
+
+jobs:
+  yolo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build test container
+        run: docker build -t ubuntu_server .
+
+      - name: Prepare build folder
+        run: |
+          mkdir build
+          chmod 777 build
+          cp Makefile build
+
+          if [ -d "debs" ]; then
+            cp debs build -r
+          fi
+
+      - name: Make yolo
+        run: |
+          cd build
+          docker run --rm -v "`pwd`:/workdir" -w /workdir ubuntu_server make yolo
