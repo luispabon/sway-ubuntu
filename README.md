@@ -37,6 +37,9 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
 **Deb rebuilds:**
   * none
 
+
+**Note on wofi:** wofi is now abandoned, but we have a pretty good wayland port for rofi. Wofi will be removed from here when this repo switches focus to Ubuntu 23.04.
+
 ### How about older Ubuntus?
 
 There are (unmaintained) branches of this project for earlier versions of Ubuntu. They won't receive any fixes,, but if you want to use them and want to send PRs with fixes these are welcome.
