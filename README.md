@@ -83,7 +83,12 @@ Make sure you uninstall `meson` and `ninja` if you've already installed them via
 
 ## Dependencies
 
-You need `make`. That's it really, everything else can be installed via the provided targets in the [Makefile](Makefile).
+ * `git`
+ * `lsb-release`
+ * `make`
+ * `sudo `
+
+Everything else can be installed via the provided targets in the [Makefile](Makefile).
 
 ## Building stuff
 
