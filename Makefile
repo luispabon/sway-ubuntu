@@ -124,6 +124,7 @@ define SWAYIMG_DEPS
 	librsvg2-dev \
 	libwebp-dev \
 	libavif-dev \
+	libexif-dev \
 	libgif-dev
 endef
 
@@ -146,6 +147,8 @@ define NWG_PANEL_DEPS
 	python3-dev \
 	python3-pyalsa \
 	python3-i3ipc \
+	libgirepository1.0-dev \
+	python3-cairo-dev \
 	light
 endef
 
