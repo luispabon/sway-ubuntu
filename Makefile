@@ -178,7 +178,7 @@ check-ubuntu-version:
 ## Meta installation targets
 yolo: install-dependencies install-repos core apps
 core: seatd-build wlroots-build sway-build
-apps: xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build wofi-build nwg-panel-install swayimg-build
+apps: xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build wf-recorder-build clipman-build rofi-wayland-build wdisplays-build wofi-build nwg-panel-install swayimg-build
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
 rofi: rofi-wayland-build
 
