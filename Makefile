@@ -53,6 +53,7 @@ define WLROOTS_DEPS
 	libgudev-1.0-dev \
 	libpixman-1-dev \
 	libsystemd-dev \
+	hwdata \
 	cmake \
 	libpng-dev \
 	libavutil-dev \
