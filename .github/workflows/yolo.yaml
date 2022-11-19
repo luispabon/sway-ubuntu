@@ -1,10 +1,16 @@
 name: From scratch on Ubuntu server
 
 on:
+  pull_request:
+  push:
+    branches: [ master ]
+
   # Allow workflow to be manually run from the GitHub UI
   workflow_dispatch:
 
-  push: ~
+  # Daily build
+  schedule:
+    - cron: "0 2 * * *"
 
 jobs:
   yolo:
