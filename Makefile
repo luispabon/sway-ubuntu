@@ -8,8 +8,8 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= 5c239eaac59f327294aceac739c6fa035456ed14
-WLROOTS_VERSION ?= 0.16.0
+SWAY_VERSION ?= master
+WLROOTS_VERSION ?= master
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
@@ -47,6 +47,7 @@ define WLROOTS_DEPS
 	libegl1-mesa-dev \
 	libgles2-mesa-dev \
 	libdrm-dev \
+	libpciaccess-dev \
 	libgbm-dev \
 	libinput-dev \
 	libxkbcommon-dev \
@@ -234,6 +235,8 @@ meson-ninja-build: check-ubuntu-version
 	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 
 ## Backported packages
+backports: wayland-protocols libdrm2 libpixman-1-0
+
 wayland-protocols:
 	@required_version=1.27; \
 	version=`apt-cache policy wayland-protocols | grep Installed | awk '{print $$2}'`; \
@@ -247,11 +250,38 @@ wayland-protocols:
 		echo "wayland-protocols is the right version, nothing to do"; \
 	fi
 
+libdrm2:
+	@required_version=2.4.114; \
+	version=`apt-cache policy libdrm2 | grep Installed | awk '{print $$2}'`; \
+	dpkg --compare-versions $$version lt $$required_version; \
+	current_version_too_old=$$?; \
+	echo "## Found libdrm2 $$version"; \
+	if [ "$$current_version_too_old" = 0 ]; then \
+		echo "Installed libdrm2 is too old, installing update..."; \
+		sudo dpkg -i debs/libdrm*.deb; \
+	else \
+		echo "libdrm2 is the right version, nothing to do"; \
+	fi
+
+libpixman-1-0:
+	@required_version=0.42.2; \
+	version=`apt-cache policy libpixman-1-0 | grep Installed | awk '{print $$2}'`; \
+	dpkg --compare-versions $$version lt $$required_version; \
+	current_version_too_old=$$?; \
+	echo "## Found libpixman-1-0 $$version"; \
+	if [ "$$current_version_too_old" = 0 ]; then \
+		echo "Installed libpixman-1-0 is too old, installing update..."; \
+		sudo dpkg -i debs/libpixman*.deb; \
+	else \
+		echo "libpixman-1-0 is the right version, nothing to do"; \
+	fi
+
+
 ## Sway
 seatd-build:
 	make meson-ninja-build -e APP_FOLDER=seatd -e APP_VERSION=$(SEATD_VERSION)
 
-wlroots-build: wayland-protocols
+wlroots-build: backports
 	make meson-ninja-build -e APP_FOLDER=wlroots -e APP_VERSION=$(WLROOTS_VERSION)
 
 sway-build:
