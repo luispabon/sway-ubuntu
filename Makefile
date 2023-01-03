@@ -105,6 +105,8 @@ define WAYBAR_RUNTIME_DEPS
 	libjsoncpp25 \
 	libnl-3-200 \
 	libnl-genl-3-200 \
+	libspdlog-dev \
+	libwireplumber-0.4-dev \
 	libdbusmenu-gtk3-4
 endef
 
