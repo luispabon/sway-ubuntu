@@ -9,7 +9,7 @@ RUN apt-get update && \
         make \
         sudo
 
-RUN useradd ${NON_PRIVILEGED_USER} && \
+RUN useradd -m ${NON_PRIVILEGED_USER} && \
     echo "${NON_PRIVILEGED_USER} ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers.d/${NON_PRIVILEGED_USER}
 
 USER ${NON_PRIVILEGED_USER}
