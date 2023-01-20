@@ -145,10 +145,12 @@ define WDISPLAYS_DEPS
 endef
 
 define NWG_PANEL_DEPS
+	libgirepository1.0-dev \
+	light \
+	python3-cairo-dev \
 	python3-dev \
 	python3-pyalsa \
-	python3-i3ipc \
-	light
+	python3-i3ipc
 endef
 
 define WAYFIRE_DEPS
