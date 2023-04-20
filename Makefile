@@ -148,8 +148,9 @@ define NWG_PANEL_DEPS
 	light \
 	python3-cairo-dev \
 	python3-dev \
+	python3-i3ipc \
 	python3-pyalsa \
-	python3-i3ipc
+	python3-setuptools
 endef
 
 define WAYFIRE_DEPS
@@ -178,6 +179,7 @@ endef
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build $(ASAN_STATEMENT); ninja -C build; sudo ninja -C build install
 
+PIPX_ENV=PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin
 
 check-ubuntu-version:
 	@if [ "$(CURRENT_UBUNTU_CODENAME)" != "$(REQUIRED_UBUNTU_CODENAME)" ]; then echo "### \n#  Unsupported version of ubuntu (current: '$(CURRENT_UBUNTU_CODENAME)', required: '$(REQUIRED_UBUNTU_CODENAME)').\n#  Check this repo's remote branches (git branch -r) to see if your version is there and switch to it (these branches are deprecated but should work for your version)\n###"; exit 1; fi
@@ -231,8 +233,8 @@ install-dependencies:
 	sudo apt -y install build-essential
 
 	# From 23.04, python3-pip refuses to install packages globally and recommends pipx for that instead
-	echo $(PIP_PACKAGES) | xargs -n 1 sudo PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install
-	echo $(PIP_PACKAGES) | xargs -n 1 sudo PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx upgrade
+	echo $(PIP_PACKAGES) | xargs -n 1 sudo $(PIPX_ENV) pipx install
+	echo $(PIP_PACKAGES) | xargs -n 1 sudo $(PIPX_ENV) pipx upgrade
 
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
