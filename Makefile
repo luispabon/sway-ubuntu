@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=kinetic
+REQUIRED_UBUNTU_CODENAME=lunar
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
@@ -37,8 +37,7 @@ endif
 
 define BASE_CLI_DEPS
 	git \
-	mercurial \
-	python3-pip
+	pipx
 endef
 
 define WLROOTS_DEPS
@@ -172,7 +171,10 @@ define ROFI_WAYLAND_DEPS
 	libxkbcommon-x11-dev
 endef
 
-PIP_PACKAGES=ninja meson
+define PIP_PACKAGES
+	ninja \
+	meson
+endef
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build $(ASAN_STATEMENT); ninja -C build; sudo ninja -C build install
 
@@ -183,7 +185,7 @@ check-ubuntu-version:
 ## Meta installation targets
 yolo: install-dependencies install-repos core apps
 core: seatd-build wlroots-build sway-build
-apps: xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build rofi-wayland-build wf-recorder-build clipman-build wofi-build nwg-panel-install swayimg-build wdisplays-build
+apps: xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build rofi-wayland-build wf-recorder-build clipman-build nwg-panel-install swayimg-build wdisplays-build
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
 
 ## Build dependencies
@@ -203,7 +205,6 @@ install-repos:
 	@git clone https://github.com/WayfireWM/wayfire.git || echo "Already installed"
 	@git clone https://github.com/WayfireWM/wf-shell.git || echo "Already installed"
 	@git clone https://github.com/WayfireWM/wcm.git || echo "Already installed"
-	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 	@git clone https://git.sr.ht/~kennylevinsen/seatd || echo "Already installed"
 	@git clone https://github.com/artemsen/swayimg.git || echo "Already installed"
 	@git clone https://github.com/sardemff7/libgwater.git || echo "Already installed"
@@ -228,7 +229,10 @@ install-dependencies:
 		$(XDG_DESKTOP_PORTAL_DEPS)
 
 	sudo apt -y install build-essential
-	sudo pip3 install $(PIP_PACKAGES) --upgrade
+
+	# From 23.04, python3-pip refuses to install packages globally and recommends pipx for that instead
+	echo $(PIP_PACKAGES) | xargs -n 1 sudo PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install
+	echo $(PIP_PACKAGES) | xargs -n 1 sudo PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx upgrade
 
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
@@ -290,10 +294,6 @@ clipman-build:
 
 swayimg-build:
 	make meson-ninja-build -e APP_FOLDER=swayimg -e APP_VERSION=$(SWAYIMG_VERSION)
-
-wofi-build:
-	cd wofi; hg pull; hg update; $(NINJA_CLEAN_BUILD_INSTALL)
-	sudo cp -f $(shell pwd)/wofi/build/wofi /usr/local/bin/
 
 nwg-panel-install:
 	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python3 setup.py install --optimize=1

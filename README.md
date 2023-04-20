@@ -1,6 +1,6 @@
-# Sway builds for Ubuntu 22.10 (amd64)
+# Sway builds for Ubuntu 23.04 (amd64)
 
-Ubuntu 22.10 build system for sway and related tools.
+Ubuntu 23.04 build system for sway and related tools.
 
 Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I personally prefer to keep up to date with those.
 
@@ -24,7 +24,6 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
   * waybar
   * wdisplays
   * wf-recorder
-  * wofi - DEPRECATED: looks like the app has been abandoned. Use rofi wayland instead.
   * xdg-desktop-portal-wlr (for screen sharing)
 
 **Wayfire apps:**
@@ -37,8 +36,6 @@ Apps provided (make sure you do not install these via Ubuntu's package repos):
 **Deb rebuilds:**
   * none
 
-
-**Note on wofi:** wofi is now abandoned, but we have a pretty good wayland port for rofi. Wofi will be removed from here when this repo switches focus to Ubuntu 23.04.
 
 ### How about older Ubuntus?
 
@@ -160,8 +157,9 @@ This goes without saying, but if you're updating `wlroots` or `seatd` make sure 
 
 ## Screen sharing
 
-Ubuntu 22.10 comes with all the plumbing to make it all work:
+Ubuntu 23.04 comes with all the plumbing to make it all work:
   * pipewire 0.3
+  * wireplumber
   * xdg-desktop-portal-gtk with the correct build flags
 
 ### Limitations
@@ -187,12 +185,12 @@ By default it'll be `slurp` - your cursor will change to a crosshairs and you'll
 The chooser is configurable, see docs here:
 https://github.com/emersion/xdg-desktop-portal-wlr/blob/master/xdg-desktop-portal-wlr.5.scd#output-chooser
 
-For instance, if you'd like to use wofi/dmenu, place the following on `~/config/xdg-desktop-portal-wlr/config`
+For instance, if you'd like to use rofi/dmenu, place the following on `~/config/xdg-desktop-portal-wlr/config`
 
 ```
 [screencast]
 chooser_type=dmenu
-chooser_cmd=wofi --show=dmenu
+chooser_cmd=rofi -dmenu
 ```
 
 The actual defaults (if you had no config file) are:
