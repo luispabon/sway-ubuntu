@@ -298,7 +298,7 @@ swayimg-build:
 	make meson-ninja-build -e APP_FOLDER=swayimg -e APP_VERSION=$(SWAYIMG_VERSION)
 
 nwg-panel-install:
-	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python3 setup.py install --optimize=1
+	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo $(PIPX_ENV) pipx install . --force
 
 xdg-desktop-portal-wlr-build:
 	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
