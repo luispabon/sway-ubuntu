@@ -8,6 +8,10 @@ This repository contains a Makefile based build system for all of these. We are 
 
 Apps provided (make sure you do not install these via Ubuntu's package repos):
 
+### Upgrading from a previous version of Ubuntu
+
+Make sure you run `make yolo`, to refresh your installed dependencies as well as re-compiling everything with the newer header files.
+
 **Core:**
   * Sway
   * wlroots
