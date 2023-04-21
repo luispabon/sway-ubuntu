@@ -91,7 +91,7 @@ While building, `sudo` will be run at some point to do so, and your password wil
 
 ### Note: `meson` and `ninja`
 
-Make sure you uninstall `meson` and `ninja` if you've already installed them via Ubuntu's package manager. Sway and wlroots routinely require the very latest versions of both, so we'll be installing the latest versions using `python3-pip` instead.
+Make sure you uninstall `meson` and `ninja` if you've already installed them via Ubuntu's package manager. Sway and wlroots routinely require the very latest versions of both, so we'll be installing the latest versions using `pipx` instead.
 
 ## Dependencies
 
