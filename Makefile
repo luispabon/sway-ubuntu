@@ -299,6 +299,8 @@ swayimg-build:
 
 nwg-panel-install:
 	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo $(PIPX_ENV) pipx install . --force
+	cat nwg-panel/requirements.txt | sudo $(PIPX_ENV) xargs pipx inject nwg-panel
+	sudo $(PIPX_ENV) pipx inject nwg-panel requests
 
 xdg-desktop-portal-wlr-build:
 	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
