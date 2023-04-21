@@ -6,11 +6,25 @@ Even though most of these tools (including sway and wlroots) are now available i
 
 This repository contains a Makefile based build system for all of these. We are NOT building deb packages (see my [old repository which did](https://github.com/luispabon/sway-ubuntu-deb-build) if you want to do so), but we're directly building from source and installing as root.
 
-Apps provided (make sure you do not install these via Ubuntu's package repos):
+## Note: upgrading to Ubuntu 23.04
 
-### Upgrading from a previous version of Ubuntu
+You can safely ignore this note if this is the first time you're installing sway and all the other apps from this repo.
 
-Make sure you run `make yolo`, to refresh your installed dependencies as well as re-compiling everything with the newer header files.
+ * **Wofi** has been removed from our install targets as it's now semi-abandoned. It is, however, available to install from Ubuntu's repos via `apt install wofi` if you need it. Make sure you clean the compiled version up from the system:
+      ```shell
+        cd wofi
+        sudo ninja -C build uninstall
+      ```
+
+ * Python's pip is now refusing to install global packages and instead recommending to use pipx to do so. I have migrated all such installs to pipx, but it means you need to clean up `meson` and `ninja`:
+    ```shell
+      sudo pip3 uninstall meson ninja --break-system-packages
+    ```
+ * After cleaning up meson and ninja, you need to install dependencies again as there are new ones, including meson and ninja. Run `make yolo -e UPDATE=true` to do so but also re-compile everything with the new base libraries.
+
+## Apps provided
+
+Make sure you do not install these via Ubuntu's package repos.
 
 **Core:**
   * Sway
