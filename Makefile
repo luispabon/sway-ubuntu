@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=kinetic
+REQUIRED_UBUNTU_CODENAME=lunar
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
@@ -19,7 +19,7 @@ WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
 SWAYIMG_VERSION ?= master
 WDISPLAYS_VERSION ?= master
-XDG_DESKTOP_PORTAL_VERSION ?= a5a05d8ee3cdc0261f69af9ba042f7a5f3a70074
+XDG_DESKTOP_PORTAL_VERSION ?= v0.7.0
 NWG_PANEL_VERSION ?= master
 WAYFIRE_VERSION ?= master
 WF_CONFIG_VERSION ?= master
@@ -37,8 +37,7 @@ endif
 
 define BASE_CLI_DEPS
 	git \
-	mercurial \
-	python3-pip
+	pipx
 endef
 
 define WLROOTS_DEPS
@@ -149,8 +148,9 @@ define NWG_PANEL_DEPS
 	light \
 	python3-cairo-dev \
 	python3-dev \
+	python3-i3ipc \
 	python3-pyalsa \
-	python3-i3ipc
+	python3-setuptools
 endef
 
 define WAYFIRE_DEPS
@@ -172,10 +172,14 @@ define ROFI_WAYLAND_DEPS
 	libxkbcommon-x11-dev
 endef
 
-PIP_PACKAGES=ninja meson
+define PIP_PACKAGES
+	ninja \
+	meson
+endef
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build $(ASAN_STATEMENT); ninja -C build; sudo ninja -C build install
 
+PIPX_ENV=PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin
 
 check-ubuntu-version:
 	@if [ "$(CURRENT_UBUNTU_CODENAME)" != "$(REQUIRED_UBUNTU_CODENAME)" ]; then echo "### \n#  Unsupported version of ubuntu (current: '$(CURRENT_UBUNTU_CODENAME)', required: '$(REQUIRED_UBUNTU_CODENAME)').\n#  Check this repo's remote branches (git branch -r) to see if your version is there and switch to it (these branches are deprecated but should work for your version)\n###"; exit 1; fi
@@ -183,7 +187,7 @@ check-ubuntu-version:
 ## Meta installation targets
 yolo: install-dependencies install-repos core apps
 core: seatd-build wlroots-build sway-build
-apps: xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build rofi-wayland-build wf-recorder-build clipman-build wofi-build nwg-panel-install swayimg-build wdisplays-build
+apps: xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build rofi-wayland-build wf-recorder-build clipman-build nwg-panel-install swayimg-build wdisplays-build
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
 
 ## Build dependencies
@@ -203,7 +207,6 @@ install-repos:
 	@git clone https://github.com/WayfireWM/wayfire.git || echo "Already installed"
 	@git clone https://github.com/WayfireWM/wf-shell.git || echo "Already installed"
 	@git clone https://github.com/WayfireWM/wcm.git || echo "Already installed"
-	@hg clone https://hg.sr.ht/~scoopta/wofi || echo "Already installed"
 	@git clone https://git.sr.ht/~kennylevinsen/seatd || echo "Already installed"
 	@git clone https://github.com/artemsen/swayimg.git || echo "Already installed"
 	@git clone https://github.com/sardemff7/libgwater.git || echo "Already installed"
@@ -228,7 +231,10 @@ install-dependencies:
 		$(XDG_DESKTOP_PORTAL_DEPS)
 
 	sudo apt -y install build-essential
-	sudo pip3 install $(PIP_PACKAGES) --upgrade
+
+	# From 23.04, python3-pip refuses to install packages globally and recommends pipx for that instead
+	echo $(PIP_PACKAGES) | xargs -n 1 sudo $(PIPX_ENV) pipx install
+	echo $(PIP_PACKAGES) | xargs -n 1 sudo $(PIPX_ENV) pipx upgrade
 
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
@@ -291,12 +297,10 @@ clipman-build:
 swayimg-build:
 	make meson-ninja-build -e APP_FOLDER=swayimg -e APP_VERSION=$(SWAYIMG_VERSION)
 
-wofi-build:
-	cd wofi; hg pull; hg update; $(NINJA_CLEAN_BUILD_INSTALL)
-	sudo cp -f $(shell pwd)/wofi/build/wofi /usr/local/bin/
-
 nwg-panel-install:
-	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo python3 setup.py install --optimize=1
+	cd nwg-panel; git checkout $(NWG_PANEL_VERSION); $(UPDATE_STATEMENT) sudo $(PIPX_ENV) pipx install . --force
+	cat nwg-panel/requirements.txt | sudo $(PIPX_ENV) xargs pipx inject nwg-panel
+	sudo $(PIPX_ENV) pipx inject nwg-panel requests
 
 xdg-desktop-portal-wlr-build:
 	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)

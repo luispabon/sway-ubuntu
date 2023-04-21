@@ -1,4 +1,4 @@
-FROM ubuntu:kinetic
+FROM ubuntu:lunar
 
 ARG NON_PRIVILEGED_USER=yolo
 
