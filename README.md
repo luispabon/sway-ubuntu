@@ -36,7 +36,7 @@ Make sure you do not install these via Ubuntu's package repos.
   * kanshi
   * mako
   * nwg-panel
-  * rofi wayland fork - Note: this is not part of the `apps` makefile target, yet, as people already have it installed via apt. Letting some time pass to do so.
+  * rofi (wayland fork)
   * swaylock-effects
   * swayimg
   * waybar
@@ -49,7 +49,7 @@ Make sure you do not install these via Ubuntu's package repos.
   * wf-shell
 
 **Debs:**
-  * wayland-protocols 1.27-1
+  * none
 
 **Deb rebuilds:**
   * none
