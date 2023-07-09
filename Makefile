@@ -11,6 +11,7 @@ endif
 SWAY_VERSION ?= v1.8
 WLROOTS_VERSION ?= 0.16
 SEATD_VERSION ?= 0.7.0
+LIBVARLINK_VERSION ?= master
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
@@ -195,6 +196,7 @@ install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
 	@git clone https://gitlab.freedesktop.org/wlroots/wlroots.git || echo "Already installed"
 	@git clone https://git.sr.ht/~emersion/kanshi || echo "Already installed"
+	@git clone https://github.com/varlink/libvarlink.git || echo "Already installed"
 	@git clone https://github.com/Alexays/Waybar.git || echo "Already installed"
 	@git clone https://github.com/mortie/swaylock-effects.git || echo "Already installed"
 	@git clone https://github.com/emersion/mako.git || echo "Already installed"
@@ -252,9 +254,13 @@ wlroots-build:
 sway-build:
 	make meson-ninja-build -e APP_FOLDER=sway -e APP_VERSION=$(SWAY_VERSION)
 	sudo cp -f sway/contrib/grimshot /usr/local/bin/
+## Libs
+libvarlink-build:
+	make meson-ninja-build -e APP_FOLDER=libvarlink -e APP_VERSION=$(LIBVARLINK_VERSION)
 
 ## Apps
 kanshi-build:
+	libvarlink-build
 	make meson-ninja-build -e APP_FOLDER=kanshi -e APP_VERSION=$(KANSHI_VERSION)
 
 waybar-build:
