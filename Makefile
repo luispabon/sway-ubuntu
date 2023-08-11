@@ -259,8 +259,7 @@ libvarlink-build:
 	make meson-ninja-build -e APP_FOLDER=libvarlink -e APP_VERSION=$(LIBVARLINK_VERSION)
 
 ## Apps
-kanshi-build:
-	libvarlink-build
+kanshi-build: libvarlink-build
 	make meson-ninja-build -e APP_FOLDER=kanshi -e APP_VERSION=$(KANSHI_VERSION)
 
 waybar-build:
