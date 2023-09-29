@@ -201,7 +201,7 @@ install-repos:
 	@git clone https://github.com/mortie/swaylock-effects.git || echo "Already installed"
 	@git clone https://github.com/emersion/mako.git || echo "Already installed"
 	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
-	@git clone https://github.com/yory8/clipman.git || echo "Already installed"
+	@git clone https://github.com/luispabon/clipman.git || echo "Already installed"
 	@git clone https://github.com/emersion/xdg-desktop-portal-wlr.git || echo "Already installed"
 	@git clone https://github.com/luispabon/wdisplays.git || echo "Already installed"
 	@git clone https://github.com/nwg-piotr/nwg-panel.git || echo "Already installed"
@@ -300,6 +300,7 @@ xdg-desktop-portal-wlr-build:
 	sudo ln -sf /usr/local/share/xdg-desktop-portal/portals/wlr.portal /usr/share/xdg-desktop-portal/portals/
 
 ## Wayfire
+wayfire-all-build: wf-config-build wayfire-build wf-shell-build wcm-build
 
 wf-config-build:
 	make meson-ninja-build -e APP_FOLDER=wf-config -e APP_VERSION=$(WF_CONFIG_VERSION)
