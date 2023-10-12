@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=lunar
+REQUIRED_UBUNTU_CODENAME=mantic
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
@@ -20,7 +20,7 @@ WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
 SWAYIMG_VERSION ?= master
 WDISPLAYS_VERSION ?= master
-XDG_DESKTOP_PORTAL_VERSION ?= v0.7.0
+XDG_DESKTOP_PORTAL_WLR_VERSION ?= master
 NWG_PANEL_VERSION ?= master
 WAYFIRE_VERSION ?= master
 WF_CONFIG_VERSION ?= master
@@ -294,7 +294,7 @@ nwg-panel-install:
 	sudo $(PIPX_ENV) pipx inject nwg-panel requests
 
 xdg-desktop-portal-wlr-build:
-	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_WLR_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 	sudo ln -sf /usr/local/libexec/xdg-desktop-portal-wlr /usr/libexec/
 	sudo mkdir -p /usr/share/xdg-desktop-portal/portals/
 	sudo ln -sf /usr/local/share/xdg-desktop-portal/portals/wlr.portal /usr/share/xdg-desktop-portal/portals/
