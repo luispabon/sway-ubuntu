@@ -59,6 +59,8 @@ define WLROOTS_DEPS
 	libavutil-dev \
 	libavcodec-dev \
 	libavformat-dev \
+	libdisplay-info-dev \
+	libliftoff-dev \
 	libxcb-composite0-dev \
 	libxcb-icccm4-dev \
 	libxcb-image0-dev \
@@ -188,12 +190,13 @@ check-ubuntu-version:
 ## Meta installation targets
 yolo: install-dependencies install-repos core apps
 core: seatd-build wlroots-build sway-build
-apps: xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build rofi-wayland-build wf-recorder-build clipman-build nwg-panel-install swayimg-build wdisplays-build
+apps: grimshot-install xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build rofi-wayland-build wf-recorder-build clipman-build nwg-panel-install swayimg-build wdisplays-build
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
 
 ## Build dependencies
 install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
+	@git clone https://github.com/OctopusET/sway-contrib.git || echo "Already installed"
 	@git clone https://gitlab.freedesktop.org/wlroots/wlroots.git || echo "Already installed"
 	@git clone https://git.sr.ht/~emersion/kanshi || echo "Already installed"
 	@git clone https://github.com/varlink/libvarlink.git || echo "Already installed"
@@ -253,12 +256,15 @@ wlroots-build:
 
 sway-build:
 	make meson-ninja-build -e APP_FOLDER=sway -e APP_VERSION=$(SWAY_VERSION)
-	sudo cp -f sway/contrib/grimshot /usr/local/bin/
+
 ## Libs
 libvarlink-build:
 	make meson-ninja-build -e APP_FOLDER=libvarlink -e APP_VERSION=$(LIBVARLINK_VERSION)
 
 ## Apps
+grimshot-install:
+	sudo cp -f sway-contrib/grimshot /usr/local/bin/
+
 kanshi-build: libvarlink-build
 	make meson-ninja-build -e APP_FOLDER=kanshi -e APP_VERSION=$(KANSHI_VERSION)
 
