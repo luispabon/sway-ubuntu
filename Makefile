@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=lunar
+REQUIRED_UBUNTU_CODENAME=mantic
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
@@ -8,9 +8,13 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= v1.8
-WLROOTS_VERSION ?= 0.16
-SEATD_VERSION ?= 0.7.0
+
+# Nearly the newest at Oct 13th, working around https://gitlab.freedesktop.org/wlroots/wlroots/-/issues/3746
+
+SWAY_VERSION ?= 9816b59b
+WLROOTS_VERSION ?= 8a8fb76ec1d
+
+SEATD_VERSION ?= master
 LIBVARLINK_VERSION ?= master
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
@@ -20,7 +24,7 @@ WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
 SWAYIMG_VERSION ?= master
 WDISPLAYS_VERSION ?= master
-XDG_DESKTOP_PORTAL_VERSION ?= v0.7.0
+XDG_DESKTOP_PORTAL_WLR_VERSION ?= master
 NWG_PANEL_VERSION ?= master
 WAYFIRE_VERSION ?= master
 WF_CONFIG_VERSION ?= master
@@ -59,6 +63,8 @@ define WLROOTS_DEPS
 	libavutil-dev \
 	libavcodec-dev \
 	libavformat-dev \
+	libdisplay-info-dev \
+	libliftoff-dev \
 	libxcb-composite0-dev \
 	libxcb-icccm4-dev \
 	libxcb-image0-dev \
@@ -188,12 +194,13 @@ check-ubuntu-version:
 ## Meta installation targets
 yolo: install-dependencies install-repos core apps
 core: seatd-build wlroots-build sway-build
-apps: xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build rofi-wayland-build wf-recorder-build clipman-build nwg-panel-install swayimg-build wdisplays-build
+apps: grimshot-install xdg-desktop-portal-wlr-build kanshi-build waybar-build swaylock-build mako-build rofi-wayland-build wf-recorder-build clipman-build nwg-panel-install swayimg-build wdisplays-build
 wf: wf-config-build wayfire-build wf-shell-build wcm-build
 
 ## Build dependencies
 install-repos:
 	@git clone https://github.com/swaywm/sway.git || echo "Already installed"
+	@git clone https://github.com/OctopusET/sway-contrib.git || echo "Already installed"
 	@git clone https://gitlab.freedesktop.org/wlroots/wlroots.git || echo "Already installed"
 	@git clone https://git.sr.ht/~emersion/kanshi || echo "Already installed"
 	@git clone https://github.com/varlink/libvarlink.git || echo "Already installed"
@@ -253,12 +260,15 @@ wlroots-build:
 
 sway-build:
 	make meson-ninja-build -e APP_FOLDER=sway -e APP_VERSION=$(SWAY_VERSION)
-	sudo cp -f sway/contrib/grimshot /usr/local/bin/
+
 ## Libs
 libvarlink-build:
 	make meson-ninja-build -e APP_FOLDER=libvarlink -e APP_VERSION=$(LIBVARLINK_VERSION)
 
 ## Apps
+grimshot-install:
+	sudo cp -f sway-contrib/grimshot /usr/local/bin/
+
 kanshi-build: libvarlink-build
 	make meson-ninja-build -e APP_FOLDER=kanshi -e APP_VERSION=$(KANSHI_VERSION)
 
@@ -294,7 +304,7 @@ nwg-panel-install:
 	sudo $(PIPX_ENV) pipx inject nwg-panel requests
 
 xdg-desktop-portal-wlr-build:
-	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	cd xdg-desktop-portal-wlr; git fetch; git checkout $(XDG_DESKTOP_PORTAL_WLR_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
 	sudo ln -sf /usr/local/libexec/xdg-desktop-portal-wlr /usr/libexec/
 	sudo mkdir -p /usr/share/xdg-desktop-portal/portals/
 	sudo ln -sf /usr/local/share/xdg-desktop-portal/portals/wlr.portal /usr/share/xdg-desktop-portal/portals/

@@ -1,4 +1,4 @@
-FROM ubuntu:lunar
+FROM ubuntu:mantic
 
 ARG NON_PRIVILEGED_USER=yolo
 
