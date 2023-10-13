@@ -1,12 +1,12 @@
-# Sway builds for Ubuntu 23.04 (amd64)
+# Sway builds for Ubuntu 23.10 (amd64)
 
-Ubuntu 23.04 build system for sway and related tools.
+Ubuntu 23.10 build system for sway and related tools.
 
 Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I personally prefer to keep up to date with those.
 
 This repository contains a Makefile based build system for all of these. We are NOT building deb packages (see my [old repository which did](https://github.com/luispabon/sway-ubuntu-deb-build) if you want to do so), but we're directly building from source and installing as root.
 
-## Note: upgrading to Ubuntu 23.04
+## Note: upgrading from Ubuntu 22.10 or earlier
 
 You can safely ignore this note if this is the first time you're installing sway and all the other apps from this repo.
 
@@ -57,7 +57,7 @@ Make sure you do not install these via Ubuntu's package repos.
 
 ### How about older Ubuntus?
 
-There are (unmaintained) branches of this project for earlier versions of Ubuntu. They won't receive any fixes,, but if you want to use them and want to send PRs with fixes these are welcome.
+There are (unmaintained) branches of this project for earlier versions of Ubuntu. They won't receive any fixes unless contributed by the community, as I have moved on from using them. PRs more than welcome.
 
 I usually switch to the next ubuntu a few weeks before release, so typically old branches will have the very latest versions of the apps that are physically compilable given the libraries available.
 
@@ -175,7 +175,7 @@ This goes without saying, but if you're updating `wlroots` or `seatd` make sure 
 
 ## Screen sharing
 
-Ubuntu 23.04 comes with all the plumbing to make it all work:
+Ubuntu 23.10 comes with all the plumbing to make it all work:
   * pipewire 0.3
   * wireplumber
   * xdg-desktop-portal-gtk with the correct build flags
@@ -225,10 +225,6 @@ Should work out of the box on Firefox 84+ using the wayland backend.
 
 When you start screensharing, on the dialog asking you what to share tell it to "Use operating system settings" when prompted. After that, the output chooser for xdpw will kick in, as explained on the previous section.
 
-### Chromium
+### Chromium & Chrome
 
-Ubuntu's Chromium snap currently does not seem to have webrtc pipewire support.
-
-### Chrome
-
-Open `chrome://flags` and flip `WebRTC PipeWire support` to `enabled`. Should work after that.
+It should work out of the box when using the wayland backend, but if it doesn't open `chrome://flags` and ensure `WebRTC PipeWire support` is `enabled`.
