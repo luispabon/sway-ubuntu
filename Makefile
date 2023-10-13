@@ -8,8 +8,12 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
-SWAY_VERSION ?= master
-WLROOTS_VERSION ?= master
+
+# Nearly the newest at Oct 13th, working around https://gitlab.freedesktop.org/wlroots/wlroots/-/issues/3746
+
+SWAY_VERSION ?= 9816b59b
+WLROOTS_VERSION ?= 8a8fb76ec1d
+
 SEATD_VERSION ?= master
 LIBVARLINK_VERSION ?= master
 KANSHI_VERSION ?= master
