@@ -293,7 +293,7 @@ rofi-wayland-build:
 
 clipman-build:
 	cd clipman; git fetch; git checkout $(CLIPMAN_VERSION); go install
-	sudo cp -f ~/go/bin/clipman /usr/local/bin/
+	sudo cp -f $(shell go env GOPATH)/bin/clipman /usr/local/bin/
 
 swayimg-build:
 	make meson-ninja-build -e APP_FOLDER=swayimg -e APP_VERSION=$(SWAYIMG_VERSION)
