@@ -19,7 +19,7 @@ WF_RECORDER_VERSION ?= master
 CLIPMAN_VERSION ?= master
 SWAYIMG_VERSION ?= master
 WDISPLAYS_VERSION ?= master
-XDG_DESKTOP_PORTAL_VERSION ?= master
+XDG_DESKTOP_PORTAL_VERSION ?= v0.6.0
 NWG_PANEL_VERSION ?= master
 WAYFIRE_VERSION ?= master
 WF_CONFIG_VERSION ?= master
@@ -195,7 +195,7 @@ install-repos:
 	@git clone https://github.com/mortie/swaylock-effects.git || echo "Already installed"
 	@git clone https://github.com/emersion/mako.git || echo "Already installed"
 	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
-	@git clone https://github.com/yory8/clipman.git || echo "Already installed"
+	@git clone https://github.com/luispabon/clipman.git || echo "Already installed"
 	@git clone https://github.com/emersion/xdg-desktop-portal-wlr.git || echo "Already installed"
 	@git clone https://github.com/luispabon/wdisplays.git || echo "Already installed"
 	@git clone https://github.com/nwg-piotr/nwg-panel.git || echo "Already installed"
