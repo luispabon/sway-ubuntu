@@ -163,6 +163,7 @@ define ROFI_WAYLAND_DEPS
 	libxcb-ewmh-dev \
 	libxcb-randr0-dev \
 	libxcb-cursor-dev \
+	libxcb-util-dev \
 	libxcb-xinerama0-dev \
 	libstartup-notification0-dev \
 	flex \
