@@ -9,10 +9,10 @@ endif
 
 # Define here which branches or tags you want to build for each project
 
-# Nearly the newest at Oct 13th, working around https://gitlab.freedesktop.org/wlroots/wlroots/-/issues/3746
+# Nearly the newest at Nov 21st, highest buildable on regular ubuntu 23.10 without updating libdrm (a requirement of wlroots >= 0.18.0)
 
-SWAY_VERSION ?= 9816b59b
-WLROOTS_VERSION ?= 8a8fb76ec1d
+SWAY_VERSION ?= bff991dfd
+WLROOTS_VERSION ?= 0.17.0
 
 SEATD_VERSION ?= master
 LIBVARLINK_VERSION ?= master
