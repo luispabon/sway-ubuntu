@@ -205,7 +205,7 @@ install-repos:
 	@git clone https://git.sr.ht/~emersion/kanshi || echo "Already installed"
 	@git clone https://github.com/varlink/libvarlink.git || echo "Already installed"
 	@git clone https://github.com/Alexays/Waybar.git || echo "Already installed"
-	@git clone https://github.com/mortie/swaylock-effects.git || echo "Already installed"
+	@git clone https://github.com/jirutka/swaylock-effects.git || echo "Already installed"
 	@git clone https://github.com/emersion/mako.git || echo "Already installed"
 	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
 	@git clone https://github.com/luispabon/clipman.git || echo "Already installed"
