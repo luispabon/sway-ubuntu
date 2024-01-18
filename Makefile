@@ -11,8 +11,8 @@ endif
 
 # Nearly the newest at Nov 21st, highest buildable on regular ubuntu 23.10 without updating libdrm (a requirement of wlroots >= 0.18.0)
 
-SWAY_VERSION ?= bff991dfd
-WLROOTS_VERSION ?= 0.17.0
+SWAY_VERSION ?= master
+WLROOTS_VERSION ?= master
 
 SEATD_VERSION ?= master
 LIBVARLINK_VERSION ?= master
@@ -221,7 +221,7 @@ install-repos:
 	@git clone https://github.com/sardemff7/libgwater.git || echo "Already installed"
 	@git clone https://github.com/lbonn/rofi.git || echo "Already installed"
 
-install-dependencies:
+install-dependencies: debs-install
 	sudo apt -y install --no-install-recommends \
 		$(BASE_CLI_DEPS) \
 		$(WLROOTS_DEPS) \
@@ -244,6 +244,9 @@ install-dependencies:
 	# From 23.04, python3-pip refuses to install packages globally and recommends pipx for that instead
 	echo $(PIP_PACKAGES) | xargs -n 1 sudo $(PIPX_ENV) pipx install
 	echo $(PIP_PACKAGES) | xargs -n 1 sudo $(PIPX_ENV) pipx upgrade
+
+debs-install: check-ubuntu-version
+	sudo dpkg -i debs/*.deb || sudo apt -fy install
 
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
