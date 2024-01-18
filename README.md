@@ -49,7 +49,7 @@ Make sure you do not install these via Ubuntu's package repos.
   * wf-shell
 
 **Debs:**
-  * none
+  * libdrm 2.4.120
 
 **Deb rebuilds:**
   * none
@@ -67,7 +67,7 @@ No reason it won't work. The [debs](debs) files (if any) might pose a problem th
 
 ### How about arm (eg Raspberri PI)
 
-Should currently work, no arch-dependent debs are installed from this repo at the time of writing this.
+It should work up to 39dc475a70745b57317e4ea4be9b0d10bcd2487a; after that, we introduced some binary debs for amd64 in order to be able to follow sway/wlroots master.
 
 ## Prepare your system's environment
 
