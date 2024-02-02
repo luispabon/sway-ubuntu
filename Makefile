@@ -16,6 +16,7 @@ WLROOTS_VERSION ?= master
 
 SEATD_VERSION ?= master
 LIBVARLINK_VERSION ?= master
+LIBSCFG_VERSION ?= master
 KANSHI_VERSION ?= master
 WAYBAR_VERSION ?= master
 SWAYLOCK_VERSION ?= master
@@ -270,7 +271,7 @@ libvarlink-build:
 	make meson-ninja-build -e APP_FOLDER=libvarlink -e APP_VERSION=$(LIBVARLINK_VERSION)
 
 libscfg-build:
-	make meson-ninja-build -e APP_FOLDER=libscfg -e APP_VERSION=$(LIBVARLINK_VERSION)
+	make meson-ninja-build -e APP_FOLDER=libscfg -e APP_VERSION=$(LIBSCFG_VERSION)
 
 ## Apps
 grimshot-install:
