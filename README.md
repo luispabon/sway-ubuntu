@@ -50,6 +50,7 @@ Make sure you do not install these via Ubuntu's package repos.
 
 **Debs:**
   * libdrm 2.4.120
+  * wayland-protocols 1.33
 
 **Deb rebuilds:**
   * none
