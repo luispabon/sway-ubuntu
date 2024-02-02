@@ -23,4 +23,5 @@ rofi
 libgwater
 build
 libvarlink
+libscfg
 sway-contrib

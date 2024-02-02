@@ -204,6 +204,7 @@ install-repos:
 	@git clone https://gitlab.freedesktop.org/wlroots/wlroots.git || echo "Already installed"
 	@git clone https://git.sr.ht/~emersion/kanshi || echo "Already installed"
 	@git clone https://github.com/varlink/libvarlink.git || echo "Already installed"
+	@git clone https://git.sr.ht/~emersion/libscfg || echo "Already installed"
 	@git clone https://github.com/Alexays/Waybar.git || echo "Already installed"
 	@git clone https://github.com/jirutka/swaylock-effects.git || echo "Already installed"
 	@git clone https://github.com/emersion/mako.git || echo "Already installed"
@@ -268,11 +269,14 @@ sway-build:
 libvarlink-build:
 	make meson-ninja-build -e APP_FOLDER=libvarlink -e APP_VERSION=$(LIBVARLINK_VERSION)
 
+libscfg-build:
+	make meson-ninja-build -e APP_FOLDER=libscfg -e APP_VERSION=$(LIBVARLINK_VERSION)
+
 ## Apps
 grimshot-install:
 	sudo cp -f sway-contrib/grimshot /usr/local/bin/
 
-kanshi-build: libvarlink-build
+kanshi-build: libvarlink-build libscfg-build
 	make meson-ninja-build -e APP_FOLDER=kanshi -e APP_VERSION=$(KANSHI_VERSION)
 
 waybar-build:
