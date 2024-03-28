@@ -34,7 +34,7 @@ WCM_VERSION ?= master
 ROFI_WAYLAND_VERSION ?= wayland
 
 ifdef UPDATE
-	UPDATE_STATEMENT = git pull;
+	UPDATE_STATEMENT = git pull && git submodule update --init &&
 endif
 
 ifdef ASAN_BUILD
@@ -185,7 +185,7 @@ define PIP_PACKAGES
 	meson
 endef
 
-NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build $(ASAN_STATEMENT); ninja -C build; sudo ninja -C build install
+NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall && sudo rm build -rf && meson build $(ASAN_STATEMENT) && ninja -C build && sudo ninja -C build install
 
 PIPX_ENV=PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin
 
@@ -254,7 +254,7 @@ clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
 
 meson-ninja-build: check-ubuntu-version
-	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	cd $(APP_FOLDER) && git fetch && git checkout $(APP_VERSION) && $(NINJA_CLEAN_BUILD_INSTALL)
 
 ## Sway
 seatd-build:
