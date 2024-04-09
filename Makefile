@@ -34,7 +34,7 @@ WCM_VERSION ?= master
 ROFI_WAYLAND_VERSION ?= wayland
 
 ifdef UPDATE
-	UPDATE_STATEMENT = git pull;
+	UPDATE_STATEMENT = git pull && git submodule update --init &&
 endif
 
 ifdef ASAN_BUILD
@@ -185,7 +185,7 @@ define PIP_PACKAGES
 	meson
 endef
 
-NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf; meson build $(ASAN_STATEMENT); ninja -C build; sudo ninja -C build install
+NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf && meson build $(ASAN_STATEMENT) && ninja -C build && sudo ninja -C build install
 
 PIPX_ENV=PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin
 
@@ -223,7 +223,10 @@ install-repos:
 	@git clone https://github.com/sardemff7/libgwater.git || echo "Already installed"
 	@git clone https://github.com/lbonn/rofi.git || echo "Already installed"
 
-install-dependencies: debs-install
+install-dependencies: install-apt-packages debs-install install-pip-packages
+
+
+install-apt-packages:
 	sudo apt -y install --no-install-recommends \
 		$(BASE_CLI_DEPS) \
 		$(WLROOTS_DEPS) \
@@ -243,6 +246,7 @@ install-dependencies: debs-install
 
 	sudo apt -y install build-essential
 
+install-pip-packages:
 	# From 23.04, python3-pip refuses to install packages globally and recommends pipx for that instead
 	echo $(PIP_PACKAGES) | xargs -n 1 sudo $(PIPX_ENV) pipx install
 	echo $(PIP_PACKAGES) | xargs -n 1 sudo $(PIPX_ENV) pipx upgrade
@@ -254,7 +258,7 @@ clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
 
 meson-ninja-build: check-ubuntu-version
-	cd $(APP_FOLDER); git fetch; git checkout $(APP_VERSION); $(NINJA_CLEAN_BUILD_INSTALL)
+	cd $(APP_FOLDER) && git fetch && git checkout $(APP_VERSION) && $(NINJA_CLEAN_BUILD_INSTALL)
 
 ## Sway
 seatd-build:
@@ -285,6 +289,7 @@ waybar-build:
 
 swaylock-build:
 	make meson-ninja-build -e APP_FOLDER=swaylock-effects -e APP_VERSION=$(SWAYLOCK_VERSION)
+	sudo chmod a+s /usr/local/bin/swaylock
 
 mako-build:
 	make meson-ninja-build -e APP_FOLDER=mako -e APP_VERSION=$(MAKO_VERSION)
