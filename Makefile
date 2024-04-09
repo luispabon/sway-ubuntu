@@ -223,7 +223,10 @@ install-repos:
 	@git clone https://github.com/sardemff7/libgwater.git || echo "Already installed"
 	@git clone https://github.com/lbonn/rofi.git || echo "Already installed"
 
-install-dependencies: debs-install install-pip-packages
+install-dependencies: debs-install install-apt-packages install-pip-packages
+
+
+install-apt-packages:
 	sudo apt -y install --no-install-recommends \
 		$(BASE_CLI_DEPS) \
 		$(WLROOTS_DEPS) \
