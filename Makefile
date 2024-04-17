@@ -114,7 +114,8 @@ define WAYBAR_RUNTIME_DEPS
 	libnl-genl-3-200 \
 	libspdlog-dev \
 	libwireplumber-0.4-dev \
-	libdbusmenu-gtk3-4
+	libdbusmenu-gtk3-4 \
+	libupower-glib-dev
 endef
 
 define SWAYLOCK_DEPS
@@ -255,7 +256,7 @@ debs-install: check-ubuntu-version
 	sudo dpkg -i debs/*.deb || sudo apt -fy install
 
 clean-dependencies:
-	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
+	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_BUILD_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
 
 meson-ninja-build: check-ubuntu-version
 	cd $(APP_FOLDER) && git fetch && git checkout $(APP_VERSION) && $(NINJA_CLEAN_BUILD_INSTALL)
