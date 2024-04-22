@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=mantic
+REQUIRED_UBUNTU_CODENAME=noble
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
@@ -99,7 +99,6 @@ define WAYBAR_BUILD_DEPS
 	libpulse-dev \
 	libnl-3-dev \
 	libnl-genl-3-dev \
-	libappindicator-dev \
 	libdbusmenu-gtk3-dev \
 	libsndio-dev \
 	libmpdclient-dev \
@@ -107,8 +106,8 @@ define WAYBAR_BUILD_DEPS
 endef
 
 define WAYBAR_RUNTIME_DEPS
-	libgtkmm-3.0-1v5 \
-	libspdlog1.10 \
+	libgtkmm-3.0-1t64 \
+	libspdlog1.12 \
 	libjsoncpp25 \
 	libnl-3-200 \
 	libnl-genl-3-200 \
