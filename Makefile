@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=mantic
+REQUIRED_UBUNTU_CODENAME=noble
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides

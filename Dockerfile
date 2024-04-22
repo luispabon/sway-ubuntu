@@ -1,4 +1,4 @@
-FROM ubuntu:mantic
+FROM ubuntu:noble
 
 ARG NON_PRIVILEGED_USER=yolo
 
