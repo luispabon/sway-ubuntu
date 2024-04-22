@@ -1,6 +1,6 @@
-# Sway builds for Ubuntu 23.10 (amd64)
+# Sway builds for Ubuntu 24.04 (amd64)
 
-Ubuntu 23.10 build system for sway and related tools.
+Ubuntu 24.04 build system for sway and related tools.
 
 Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I personally prefer to keep up to date with those.
 
@@ -49,8 +49,7 @@ Make sure you do not install these via Ubuntu's package repos.
   * wf-shell
 
 **Debs:**
-  * libdrm 2.4.120
-  * wayland-protocols 1.33
+  * none
 
 **Deb rebuilds:**
   * none
@@ -68,7 +67,7 @@ No reason it won't work. The [debs](debs) files (if any) might pose a problem th
 
 ### How about arm (eg Raspberri PI)
 
-It should work up to 39dc475a70745b57317e4ea4be9b0d10bcd2487a; after that, we introduced some binary debs for amd64 in order to be able to follow sway/wlroots master.
+It should work.
 
 ## Prepare your system's environment
 
@@ -176,7 +175,7 @@ This goes without saying, but if you're updating `wlroots` or `seatd` make sure 
 
 ## Screen sharing
 
-Ubuntu 23.10 comes with all the plumbing to make it all work:
+Ubuntu 24.04 comes with all the plumbing to make it all work:
   * pipewire 0.3
   * wireplumber
   * xdg-desktop-portal-gtk with the correct build flags
