@@ -49,7 +49,7 @@ Make sure you do not install these via Ubuntu's package repos.
   * wf-shell
 
 **Debs:**
-  * none
+  * wayland-protocols 1.35
 
 **Deb rebuilds:**
   * none
