@@ -9,10 +9,9 @@ endif
 
 # Define here which branches or tags you want to build for each project
 
-# Nearly the newest at Nov 21st, highest buildable on regular ubuntu 23.10 without updating libdrm (a requirement of wlroots >= 0.18.0)
-
-SWAY_VERSION ?= master
-WLROOTS_VERSION ?= master
+# See: https://github.com/luispabon/sway-ubuntu/issues/46
+SWAY_VERSION ?= 28fd73589df0e73e1d15e165acd90651a5f805d6
+WLROOTS_VERSION ?= 0a79bc28c7ebd4d3060f92dfd8893c6b981239e8
 
 SEATD_VERSION ?= master
 LIBVARLINK_VERSION ?= master
