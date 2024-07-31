@@ -8,10 +8,11 @@ ifneq ("$(wildcard .env)","")
 endif
 
 # Define here which branches or tags you want to build for each project
+# If you want to override, create an .env file instead, see README
 
-# See: https://github.com/luispabon/sway-ubuntu/issues/46
-SWAY_VERSION ?= 28fd73589df0e73e1d15e165acd90651a5f805d6
-WLROOTS_VERSION ?= 0a79bc28c7ebd4d3060f92dfd8893c6b981239e8
+# https://github.com/luispabon/sway-ubuntu/issues/49
+SWAY_VERSION ?= 8c5b23e592d2334b3324227dd9d1311e46c5fd69
+WLROOTS_VERSION ?= 6f63f55ace53ac241a0d30dc3278a5f33f01f2dc
 
 SEATD_VERSION ?= master
 LIBVARLINK_VERSION ?= master
@@ -64,6 +65,8 @@ define WLROOTS_DEPS
 	libavcodec-dev \
 	libavformat-dev \
 	libdisplay-info-dev \
+	liblcms2-2 \
+	liblcms2-dev \
 	libliftoff-dev \
 	libxcb-composite0-dev \
 	libxcb-icccm4-dev \
