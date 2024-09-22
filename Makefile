@@ -209,7 +209,7 @@ install-repos:
 	@git clone https://github.com/varlink/libvarlink.git || echo "Already installed"
 	@git clone https://git.sr.ht/~emersion/libscfg || echo "Already installed"
 	@git clone https://github.com/Alexays/Waybar.git || echo "Already installed"
-	@git clone https://github.com/jirutka/swaylock-effects.git || echo "Already installed"
+	@git clone https://github.com/senchpimy/swaylock-effects-fprintd.git swaylock-effects || echo "Already installed"
 	@git clone https://github.com/emersion/mako.git || echo "Already installed"
 	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
 	@git clone https://github.com/luispabon/clipman.git || echo "Already installed"
