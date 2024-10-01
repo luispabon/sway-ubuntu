@@ -119,7 +119,8 @@ define WAYBAR_RUNTIME_DEPS
 endef
 
 define SWAYLOCK_DEPS
-	libpam0g-dev
+	libpam0g-dev \
+	libpam-fprintd
 endef
 
 define WF_RECORDER_DEPS
