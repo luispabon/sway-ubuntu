@@ -10,7 +10,7 @@ endif
 # Define here which branches or tags you want to build for each project
 # If you want to override, create an .env file instead, see README
 
-SWAY_VERSION ?= 1.10
+SWAY_VERSION ?= v1.10
 WLROOTS_VERSION ?= 0.18
 
 SEATD_VERSION ?= master
