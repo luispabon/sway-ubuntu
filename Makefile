@@ -10,9 +10,8 @@ endif
 # Define here which branches or tags you want to build for each project
 # If you want to override, create an .env file instead, see README
 
-# https://github.com/luispabon/sway-ubuntu/issues/49
-SWAY_VERSION ?= 8c5b23e592d2334b3324227dd9d1311e46c5fd69
-WLROOTS_VERSION ?= 6f63f55ace53ac241a0d30dc3278a5f33f01f2dc
+SWAY_VERSION ?= v1.10
+WLROOTS_VERSION ?= 0.18
 
 SEATD_VERSION ?= master
 LIBVARLINK_VERSION ?= master
@@ -120,7 +119,8 @@ define WAYBAR_RUNTIME_DEPS
 endef
 
 define SWAYLOCK_DEPS
-	libpam0g-dev
+	libpam0g-dev \
+	libpam-fprintd
 endef
 
 define WF_RECORDER_DEPS
@@ -254,7 +254,7 @@ install-pip-packages:
 	echo $(PIP_PACKAGES) | xargs -n 1 sudo $(PIPX_ENV) pipx upgrade
 
 debs-install: check-ubuntu-version
-	sudo dpkg -i debs/*.deb || sudo apt -fy install
+	sudo apt -y install ./debs/*.deb
 
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_BUILD_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
