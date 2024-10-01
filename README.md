@@ -51,6 +51,7 @@ A lot of these have actual Ubuntu packages now, however, it is possible to insta
 **Debs:**
   * wayland-protocols 1.35
   * libinput 1.26
+  * libdrm 2.4.122
 
 ### How about older Ubuntus?
 
