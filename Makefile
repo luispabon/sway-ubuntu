@@ -32,6 +32,8 @@ WF_SHELL_VERSION ?= master
 WCM_VERSION ?= master
 ROFI_WAYLAND_VERSION ?= wayland
 
+SWAY_CONTRIB_VERSION ?= 2d6e5a9dfba137251547f99befc330ef93d70551
+
 ifdef UPDATE
 	UPDATE_STATEMENT = git pull && git submodule update --init &&
 endif
@@ -281,6 +283,7 @@ libscfg-build:
 
 ## Apps
 grimshot-install:
+	git -C sway-contrib checkout ${SWAY_CONTRIB_VERSION}
 	sudo cp -f sway-contrib/grimshot /usr/local/bin/
 
 kanshi-build: libvarlink-build libscfg-build
