@@ -48,44 +48,44 @@ define BASE_CLI_DEPS
 endef
 
 define WLROOTS_DEPS
-	wayland-protocols \
-	libwayland-dev \
-	libegl1-mesa-dev \
-	libgles2-mesa-dev \
-	libdrm-dev \
-	libgbm-dev \
-	libinput-dev \
-	libxkbcommon-dev \
-	libgudev-1.0-dev \
-	libpixman-1-dev \
-	libsystemd-dev \
-	hwdata \
 	cmake \
-	libpng-dev \
-	libavutil-dev \
+	hwdata \
 	libavcodec-dev \
 	libavformat-dev \
+	libavutil-dev \
 	libdisplay-info-dev \
+	libdrm-dev \
+	libegl1-mesa-dev \
+	libgbm-dev \
+	libgles2-mesa-dev \
+	libgudev-1.0-dev \
+	libinput-dev \
 	liblcms2-2 \
 	liblcms2-dev \
 	libliftoff-dev \
+	libpixman-1-dev \
+	libpng-dev \
+	libsystemd-dev \
+	libwayland-dev \
+	libx11-xcb-dev \
 	libxcb-composite0-dev \
+	libxcb-dri3-dev \
 	libxcb-icccm4-dev \
 	libxcb-image0-dev \
 	libxcb-render0-dev \
+	libxcb-res0-dev \
 	libxcb-xfixes0-dev \
-	libxkbcommon-dev \
 	libxcb-xinput-dev \
-	libx11-xcb-dev \
-	libxcb-dri3-dev \
-	libxcb-res0-dev
+	libxkbcommon-dev \
+	libxkbcommon-dev \
+	wayland-protocols
 endef
 
 define SWAY_DEPS
-	libjson-c-dev \
-	libpango1.0-dev \
 	libcairo2-dev \
 	libgdk-pixbuf2.0-dev \
+	libjson-c-dev \
+	libpango1.0-dev \
 	scdoc \
 	xwayland
 endef
@@ -96,48 +96,48 @@ define GTK_LAYER_DEPS
 endef
 
 define WAYBAR_BUILD_DEPS
+	libdbusmenu-gtk3-dev \
+	libfmt-dev \
 	libgtkmm-3.0-dev \
 	libjsoncpp-dev \
-	libfmt-dev \
-	libpulse-dev \
+	libmpdclient-dev \
 	libnl-3-dev \
 	libnl-genl-3-dev \
-	libdbusmenu-gtk3-dev \
+	libpulse-dev \
 	libsndio-dev \
-	libmpdclient-dev \
 	libxkbregistry-dev
 endef
 
 define WAYBAR_RUNTIME_DEPS
+	libdbusmenu-gtk3-4 \
 	libgtkmm-3.0-1t64 \
-	libspdlog1.12 \
 	libjsoncpp25 \
 	libnl-3-200 \
 	libnl-genl-3-200 \
 	libspdlog-dev \
-	libwireplumber-0.4-dev \
-	libdbusmenu-gtk3-4 \
-	libupower-glib-dev
+	libspdlog1.12 \
+	libupower-glib-dev \
+	libwireplumber-0.4-dev
 endef
 
 define SWAYLOCK_DEPS
-	libpam0g-dev \
-	libpam-fprintd
+	libpam-fprintd \
+	libpam0g-dev
 endef
 
 define WF_RECORDER_DEPS
-	libswscale-dev \
 	libavdevice-dev \
+	libswscale-dev \
 	ocl-icd-opencl-dev \
 	opencl-c-headers
 endef
 
 define SWAYIMG_DEPS
+	libavif-dev \
+	libgif-dev \
 	libjpeg-dev \
 	librsvg2-dev \
-	libwebp-dev \
-	libavif-dev \
-	libgif-dev
+	libwebp-dev
 endef
 
 define CLIPMAN_DEPS
@@ -145,8 +145,8 @@ define CLIPMAN_DEPS
 endef
 
 define XDG_DESKTOP_PORTAL_DEPS
-	libpipewire-0.3-dev \
 	libinih-dev \
+	libpipewire-0.3-dev \
 	xdg-desktop-portal \
 	xdg-desktop-portal-dev
 endef
@@ -172,22 +172,22 @@ define WAYFIRE_DEPS
 endef
 
 define ROFI_WAYLAND_DEPS
-	libxcb-xkb-dev \
-	libxcb-ewmh-dev \
-	libxcb-randr0-dev \
-	libxcb-cursor-dev \
-	libxcb-xinerama0-dev \
-	libxcb-util-dev \
-	libstartup-notification0-dev \
-	flex \
 	bison \
-	libxkbcommon-x11-dev \
-	libxcb-keysyms1-dev
+	flex \
+	libstartup-notification0-dev \
+	libxcb-cursor-dev \
+	libxcb-ewmh-dev \
+	libxcb-keysyms1-dev \
+	libxcb-randr0-dev \
+	libxcb-util-dev \
+	libxcb-xinerama0-dev \
+	libxcb-xkb-dev \
+	libxkbcommon-x11-dev
 endef
 
 define PIP_PACKAGES
-	ninja \
-	meson
+	meson \
+	ninja
 endef
 
 NINJA_CLEAN_BUILD_INSTALL=$(UPDATE_STATEMENT) sudo ninja -C build uninstall; sudo rm build -rf && meson build $(ASAN_STATEMENT) && ninja -C build && sudo ninja -C build install
