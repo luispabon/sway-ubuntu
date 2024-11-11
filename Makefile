@@ -181,7 +181,8 @@ define ROFI_WAYLAND_DEPS
 	libstartup-notification0-dev \
 	flex \
 	bison \
-	libxkbcommon-x11-dev
+	libxkbcommon-x11-dev \
+	libxcb-keysyms1-dev
 endef
 
 define PIP_PACKAGES
