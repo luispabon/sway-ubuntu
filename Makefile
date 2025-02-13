@@ -117,7 +117,7 @@ define WAYBAR_RUNTIME_DEPS
 	libspdlog-dev \
 	libspdlog1.12 \
 	libupower-glib-dev \
-	libwireplumber-0.4-dev
+	libwireplumber-0.5-dev
 endef
 
 define SWAYLOCK_DEPS
