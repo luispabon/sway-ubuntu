@@ -1,6 +1,6 @@
-# Sway builds for Ubuntu 24.04 (amd64)
+# Sway builds for Ubuntu 24.10 (amd64)
 
-Ubuntu 24.04 build system for sway and related tools.
+Ubuntu 24.10 build system for sway and related tools.
 
 Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I prefer to keep up to date with those.
 
@@ -49,9 +49,7 @@ A lot of these have actual Ubuntu packages now, however, it is possible to insta
   * wf-shell
 
 **Debs:**
-  * wayland-protocols 1.35
-  * libinput 1.26
-  * libdrm 2.4.122
+  * None
 
 ### How about older Ubuntus?
 
@@ -173,7 +171,7 @@ This goes without saying, but if you're updating `wlroots` or `seatd` make sure 
 
 ## Screen sharing
 
-Ubuntu 24.04 comes with all the plumbing to make it all work:
+Ubuntu 24.10 comes with all the plumbing to make it all work:
   * pipewire 0.3
   * wireplumber
   * xdg-desktop-portal-gtk with the correct build flags
