@@ -1,4 +1,4 @@
-FROM ubuntu:pracular
+FROM ubuntu:oracular
 
 ARG NON_PRIVILEGED_USER=yolo
 
