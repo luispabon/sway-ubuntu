@@ -257,7 +257,11 @@ install-pip-packages:
 	echo $(PIP_PACKAGES) | xargs -n 1 sudo $(PIPX_ENV) pipx upgrade
 
 debs-install: check-ubuntu-version
-	sudo apt -y install ./debs/*.deb
+	@if [ "$(shell find debs/ -type f -name "*.deb" | wc -l)" != "0" ]; then \
+		sudo apt -y install ./debs/*.deb ; \
+	else echo "\n>>> No debs to install.\n"; \
+	fi
+
 
 clean-dependencies:
 	sudo apt autoremove --purge $(WLROOTS_DEPS) $(SWAY_DEPS) $(GTK_LAYER_DEPS) $(WAYBAR_BUILD_DEPS) $(WAYBAR_BUILD_DEPS) $(SWAYLOCK_DEPS) $(WF_RECORDER_DEPS) $(WDISPLAYS_DEPS) $(XDG_DESKTOP_PORTAL_DEPS)
