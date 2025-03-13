@@ -156,7 +156,7 @@ define WDISPLAYS_DEPS
 endef
 
 define NWG_PANEL_DEPS
-	libgirepository2.0-dev \
+	libgirepository-2.0-dev \
 	light \
 	python3-cairo-dev \
 	python3-dev \
