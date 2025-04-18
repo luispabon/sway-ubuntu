@@ -111,7 +111,7 @@ endef
 define WAYBAR_RUNTIME_DEPS
 	libdbusmenu-gtk3-4 \
 	libgtkmm-3.0-1t64 \
-	libjsoncpp25 \
+	libjsoncpp26 \
 	libnl-3-200 \
 	libnl-genl-3-200 \
 	libspdlog-dev \
