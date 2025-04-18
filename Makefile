@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=oracular
+REQUIRED_UBUNTU_CODENAME=plucky
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
@@ -111,11 +111,11 @@ endef
 define WAYBAR_RUNTIME_DEPS
 	libdbusmenu-gtk3-4 \
 	libgtkmm-3.0-1t64 \
-	libjsoncpp25 \
+	libjsoncpp26 \
 	libnl-3-200 \
 	libnl-genl-3-200 \
 	libspdlog-dev \
-	libspdlog1.12 \
+	libspdlog1.15 \
 	libupower-glib-dev \
 	libwireplumber-0.5-dev
 endef
