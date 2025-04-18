@@ -1,4 +1,4 @@
-FROM ubuntu:oracular
+FROM ubuntu:plucky
 
 ARG NON_PRIVILEGED_USER=yolo
 

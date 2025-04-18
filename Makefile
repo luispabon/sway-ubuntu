@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=oracular
+REQUIRED_UBUNTU_CODENAME=plucky
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
