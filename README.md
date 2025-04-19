@@ -1,26 +1,6 @@
 # Sway builds for Ubuntu 25.04 (amd64)
 
-Ubuntu 25.04 build system for sway and related tools.
-
-Even though most of these tools (including sway and wlroots) are now available in Ubuntu, they move and evolve pretty quickly and I prefer to keep up to date with those.
-
-This repository contains a Makefile-based build system for all of these. We are NOT building deb packages (see my [old repository which did](https://github.com/luispabon/sway-ubuntu-deb-build) if you want to do so), but we're directly building from source and installing as root.
-
-## Note: upgrading from Ubuntu 22.10 or earlier
-
-You can safely ignore this note if this is the first time you're installing Sway and all the other apps from this repo.
-
- * **Wofi** has been removed from our install targets as it's now semi-abandoned. It is, however, available to install from Ubuntu's repos via `apt install wofi` if you need it. Make sure you clean the compiled version up from the system:
-      ```shell
-        cd wofi
-        sudo ninja -C build uninstall
-      ```
-
- * Python's pip is now refusing to install global packages and instead recommending to use pipx to do so. I have migrated all such installs to pipx, but it means you need to clean up `meson` and `ninja`:
-    ```shell
-      sudo pip3 uninstall meson ninja --break-system-packages
-    ```
- * After cleaning up meson and ninja, you need to install dependencies again as there are new ones, including meson and ninja. Run `make yolo -e UPDATE=true` to do so but also re-compile everything with the new base libraries.
+Ubuntu 25.04 Makefile-based build system for sway and related tools, directly from sources.
 
 ## Apps provided
 
@@ -30,6 +10,7 @@ A lot of these have actual Ubuntu packages now, however, it is possible to insta
   * Sway
   * wlroots
   * seatd
+  * libvarlink
 
 **Apps:**
   * clipman
@@ -48,12 +29,16 @@ A lot of these have actual Ubuntu packages now, however, it is possible to insta
   * wayfire / wf-config / wcm
   * wf-shell
 
+**Libraries:**
+  * libvarlink
+  * libscfg
+
 **Debs:**
   * None
 
 ### How about older Ubuntus?
 
-There are (unmaintained) branches of this project for earlier versions of Ubuntu. They won't receive any fixes unless contributed by the community, as I have moved on from using them. PRs more than welcome.
+There are (unmaintained) [branches of this project](https://github.com/luispabon/sway-ubuntu/branches) for earlier versions of Ubuntu. They won't receive any fixes unless contributed by the community, as I have moved on from using them. PRs more than welcome.
 
 I usually switch to the next Ubuntu a few weeks before release, so typically old branches will have the very latest versions of the apps that are physically compilable given the libraries available.
 
@@ -63,7 +48,7 @@ No reason it won't work. The [debs](debs) files (if any) might pose a problem th
 
 ### How about arm (eg Raspberry PI)
 
-There are some arch-specific packages in `debs/` so make sure you don't try to install these and instead use `apt download` from a docker container of a newer version of Ubuntu to download them.
+Should be OK as long as there aren't any arch-specific packages in `debs/`. In that case, you can get around it by using `apt download` from a docker container or a VM from a newer version of Ubuntu to download them. Debian experimental is also a good place to look for those. No guarantees, and the closer your version of ubuntu is to it (from debian experimental the current dev version of Ubuntu is procured) the more likely it'll work.
 
 ## Prepare your system's environment
 
@@ -172,7 +157,7 @@ This goes without saying, but if you're updating `wlroots` or `seatd` make sure 
 ## Screen sharing
 
 Ubuntu 25.04 comes with all the plumbing to make it all work:
-  * pipewire 0.3
+  * pipewire >= 0.3
   * wireplumber
   * xdg-desktop-portal-gtk with the correct build flags
 
