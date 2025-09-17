@@ -215,7 +215,7 @@ install-repos:
 	@git clone https://github.com/senchpimy/swaylock-effects-fprintd.git swaylock-effects || echo "Already installed"
 	@git clone https://github.com/emersion/mako.git || echo "Already installed"
 	@git clone https://github.com/ammen99/wf-recorder.git || echo "Already installed"
-	@git clone https://github.com/luispabon/clipman.git || echo "Already installed"
+	@git clone https://github.com/chmouel/clipman.git || echo "Already installed"
 	@git clone https://github.com/emersion/xdg-desktop-portal-wlr.git || echo "Already installed"
 	@git clone https://github.com/cyclopsian/wdisplays.git || echo "Already installed"
 	@git clone https://github.com/nwg-piotr/nwg-panel.git || echo "Already installed"
