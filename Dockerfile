@@ -1,4 +1,4 @@
-FROM ubuntu:plucky
+FROM ubuntu:questing
 
 ARG NON_PRIVILEGED_USER=yolo
 
