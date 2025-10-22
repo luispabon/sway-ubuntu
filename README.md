@@ -1,6 +1,6 @@
-# Sway builds for Ubuntu 25.04 (amd64)
+# Sway builds for Ubuntu 25.10 (amd64)
 
-Ubuntu 25.04 Makefile-based build system for sway and related tools, directly from sources.
+Ubuntu 25.10 Makefile-based build system for sway and related tools, directly from sources.
 
 ## Apps provided
 
@@ -156,7 +156,7 @@ This goes without saying, but if you're updating `wlroots` or `seatd` make sure 
 
 ## Screen sharing
 
-Ubuntu 25.04 comes with all the plumbing to make it all work:
+Ubuntu 25.10 comes with all the plumbing to make it all work:
   * pipewire >= 0.3
   * wireplumber
   * xdg-desktop-portal-gtk with the correct build flags
