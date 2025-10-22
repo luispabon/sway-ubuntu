@@ -83,7 +83,7 @@ endef
 
 define SWAY_DEPS
 	libcairo2-dev \
-	libgdk-pixbuf2.0-dev \
+	libgdk-pixbuf-2.0-dev \
 	libjson-c-dev \
 	libpango1.0-dev \
 	scdoc \
