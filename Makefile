@@ -1,4 +1,4 @@
-REQUIRED_UBUNTU_CODENAME=questing
+REQUIRED_UBUNTU_CODENAME=resolute
 CURRENT_UBUNTU_CODENAME=$(shell lsb_release -cs)
 
 # Include environment overrides
@@ -10,8 +10,8 @@ endif
 # Define here which branches or tags you want to build for each project
 # If you want to override, create an .env file instead, see README
 
-SWAY_VERSION ?= v1.11
-WLROOTS_VERSION ?= 0.19
+SWAY_VERSION ?= v1.12
+WLROOTS_VERSION ?= 0.20
 
 SEATD_VERSION ?= master
 LIBVARLINK_VERSION ?= master

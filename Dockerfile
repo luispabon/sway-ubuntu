@@ -1,4 +1,4 @@
-FROM ubuntu:questing
+FROM ubuntu:resolute
 
 ARG NON_PRIVILEGED_USER=yolo
 
